@@ -1,0 +1,48 @@
+cabal-version:              3.0
+name:                       triangle
+version:                    0.1.0.0
+-- synopsis:
+-- description:
+
+
+homepage:                   https://github.com/MondeAnnaEnviro/edx-ibm-tdd-course
+license:                    BSD-3-Clause
+license-file:               LICENSE
+author:                     Monde Anna
+maintainer:                 monde.anna@enviro365.co.za
+-- copyright:
+
+
+build-type:                 Simple
+extra-doc-files:            CHANGELOG.md
+-- extra-source-files:
+
+
+common warnings
+    ghc-options:            -Wall
+
+
+library
+    import:                 warnings
+    exposed-modules:        Triangle
+    -- other-modules:
+    -- other-extensions:
+
+    build-depends:          base ^>=4.18.3.0
+    hs-source-dirs:         triangle
+    default-language:       GHC2021
+
+
+test-suite stack-test
+    import:                 warnings
+    default-language:       GHC2021
+    -- other-modules:
+    -- other-extensions:
+
+    type:                   exitcode-stdio-1.0
+    hs-source-dirs:         tests
+    main-is:                TriangleTest.hs
+    build-depends:
+        base ^>=4.18.3.0,
+        hspec,
+        triangle
