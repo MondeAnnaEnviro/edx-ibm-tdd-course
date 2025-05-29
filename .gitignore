@@ -1,0 +1,9 @@
+# dir
+.idea
+.vscode
+dist-*
+target
+tests
+
+# files
+*.swp
