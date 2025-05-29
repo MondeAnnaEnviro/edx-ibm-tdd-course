@@ -1,0 +1,10 @@
+# dir
+.pytest_cache
+**/*__pycache**
+build
+dist-*
+Stack_Kata.egg-info
+target
+
+# file
+*.swp
