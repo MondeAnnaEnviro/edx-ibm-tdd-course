@@ -2,46 +2,51 @@ from stack.stack import Stack
 import pytest
 
 
-def test_new_stack_is_empty():
-    assert Stack().empty()
+@pytest.fixture( scope="function" )
+def stack():
+    yield Stack();
 
 
-def test_push_increases_size_by_one():
-    assert len( Stack().push( 100 )) == 1
+def test_new_stack_is_empty( stack ):
+    assert stack.empty()
 
 
-def test_stack_with_items_is_not_empty():
-    assert not Stack().push( 0 ).empty()
+def test_push_increases_size_by_one( stack ):
+    assert len( stack.push( 100 )) == 1
 
 
-def test_last_push_is_on_top():
-    assert Stack().push( 1 ).push( 2 ).peek() == 2
+def test_stack_with_items_is_not_empty( stack ):
+    assert not stack.push( 0 ).empty()
 
 
-def test_peeking_empty_stack_raises_error():
+def test_last_push_is_on_top( stack ):
+    assert stack.push( 1 ).push( 2 ).peek() == 2
+
+
+def test_peeking_empty_stack_raises_error( stack ):
     match = "cannot peek empty stack"
     with pytest.raises( RuntimeError, match=match ):
         Stack().peek()
 
 
-def test_popping_empty_stack_raises_error():
+def test_popping_empty_stack_raises_error( stack ):
     match = "cannot pop empty stack"
     with pytest.raises( RuntimeError, match=match ):
-        Stack().pop()
+        stack.pop()
 
 
-def test_pop_returns_last_pushed_item():
-    assert Stack().push( 77 ).pop() == 77
+def test_pop_returns_last_pushed_item( stack ):
+    assert stack.push( 77 ).pop() == 77
 
 
-def test_n_pushes_and_n_pops_render_empty_stack():
-    stack = Stack().push( 83 )
+def test_n_pushes_and_n_pops_render_empty_stack( stack ):
+    stack.push( 83 )
     stack.pop()
     assert stack.empty()
 
 
-def test_three_pushes_and_one_pop_leave_two_item():
-    stack = Stack().push( 55 ).push( 45 ).push( 44 )
+def test_three_pushes_and_one_pop_leave_two_item( stack ):
+    stack.push( 55 ).push( 45 ).push( 44 )
     stack.pop()
     assert len( stack ) == 2
     assert stack.peek() == 45
