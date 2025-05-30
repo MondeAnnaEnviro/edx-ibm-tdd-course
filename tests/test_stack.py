@@ -14,6 +14,11 @@ def test_last_push_is_on_top():
     assert Stack().push( 1 ).push( 2 ).peek() == 2
 
 
+def test_peeking_empty_stack_raises_error():
+    match = "cannot peek empty stack"
+    with pytest.raises( RuntimeError, match=match ):
+        Stack().peek()
+
 def test_popping_empty_stack_raises_error():
     match = "cannot pop empty stack"
     with pytest.raises( RuntimeError, match=match ):
