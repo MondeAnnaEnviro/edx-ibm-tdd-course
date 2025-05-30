@@ -8,7 +8,7 @@ class Stack:
         self._DATA = []
 
     def empty( self ):
-        return not len( self._DATA )
+        return not self.size()
 
     def push( self, datum ):
         self._DATA.append( datum )
