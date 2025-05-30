@@ -15,10 +15,10 @@ class Stack:
         return self
 
     def size( self ):
-        return 1
+        return len( self._DATA )
 
     def peek( self ):
-        return 2
+        return self._DATA[ -1 ]
 
     def pop( self ):
         if self.empty():
