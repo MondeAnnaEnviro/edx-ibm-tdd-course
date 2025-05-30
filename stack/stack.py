@@ -12,3 +12,6 @@ class Stack:
 
     def size( self ):
         return 1
+
+    def peek( self ):
+        return 2
