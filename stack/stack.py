@@ -23,4 +23,4 @@ class Stack:
     def pop( self ):
         if self.empty():
             raise RuntimeError( "cannot pop empty stack" )
-        return 77
+        return self._DATA.pop()

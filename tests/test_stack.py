@@ -22,3 +22,10 @@ def test_popping_empty_stack_raises_error():
 
 def test_pop_returns_last_pushed_item():
     assert Stack().push( 77 ).pop() == 77
+
+
+def test_n_pushes_and_n_pops_render_empty_stack():
+    stack = Stack().push( 83 ).push( 4544 )
+    stack.pop()
+    stack.pop()
+    assert stack.empty()
