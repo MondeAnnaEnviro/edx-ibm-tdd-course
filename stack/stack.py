@@ -15,3 +15,6 @@ class Stack:
 
     def peek( self ):
         return 2
+
+    def pop( self ):
+        raise RuntimeError( "cannot pop empty stack" )
