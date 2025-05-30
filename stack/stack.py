@@ -64,6 +64,7 @@ class Stack:
         description:    The last pushed item
         """
 
+        self.validate_operability( "peek" )
         return self._DATA[ -1 ]
 
     def pop( self ):
@@ -78,6 +79,11 @@ class Stack:
                         top most item in stack
         """
 
-        if self.empty():
-            raise RuntimeError( "cannot pop empty stack" )
+        self.validate_operability( "pop" )
         return self._DATA.pop()
+
+    def validate_operability( self, operation ):
+        if self.empty():
+            raise RuntimeError(
+                f"cannot { operation } empty stack"
+            )
