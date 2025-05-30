@@ -1,5 +1,5 @@
-import pytest
 from stack.stack import Stack
+import pytest
 
 
 def test_new_stack_is_empty():
@@ -18,3 +18,7 @@ def test_popping_empty_stack_raises_error():
     match = "cannot pop empty stack"
     with pytest.raises( RuntimeError, match=match ):
         Stack().pop()
+
+
+def test_pop_returns_last_pushed_item():
+    assert Stack().push( 77 ).pop() == 77

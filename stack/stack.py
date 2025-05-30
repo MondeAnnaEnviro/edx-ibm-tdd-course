@@ -4,10 +4,14 @@
 
 class Stack:
 
+    def __init__( self ):
+        self._DATA = []
+
     def empty( self ):
-        return True
+        return not len( self._DATA )
 
     def push( self, datum ):
+        self._DATA.append( datum )
         return self
 
     def size( self ):
@@ -17,4 +21,6 @@ class Stack:
         return 2
 
     def pop( self ):
-        raise RuntimeError( "cannot pop empty stack" )
+        if self.empty():
+            raise RuntimeError( "cannot pop empty stack" )
+        return 77
