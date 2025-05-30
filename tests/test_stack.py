@@ -6,16 +6,20 @@ def test_new_stack_is_empty():
     assert Stack().empty()
 
 
-def test_push_increases_size_by_one():
-    assert len( Stack().push( 100 )) == 1
-
-
 def test_stack_with_items_is_not_empty():
     assert not Stack().push( 0 ).empty()
 
 
+def test_push_increases_size_by_one():
+    assert len( Stack().push( 100 )) == 1
+
+
 def test_last_push_is_on_top():
     assert Stack().push( 1 ).push( 2 ).peek() == 2
+
+
+def test_peeking_reveals_top_item():
+    assert Stack().push( 7 ).peek() == 7
 
 
 def test_peeking_empty_stack_raises_error():
