@@ -20,7 +20,7 @@ class Stack:
                         else False
         """
 
-        return not self.size()
+        return not len( self )
 
     def push( self, datum ):
         """
@@ -38,20 +38,6 @@ class Stack:
 
         self._DATA.append( datum )
         return self
-
-    def size( self ):
-        """
-        Informs caller of the size of the stack
-        at the time of call
-
-        Return
-        ======
-        type:           int
-        description:    Positive count of stack'
-                        items
-        """
-
-        return len( self._DATA )
 
     def peek( self ):
         """
@@ -87,3 +73,17 @@ class Stack:
             raise RuntimeError(
                 f"cannot { operation } empty stack"
             )
+
+    def __len__( self ):
+        """
+        Assissts the length dunder function in
+        determining the size of the stack
+
+        Return
+        ======
+        type:           int
+        description:    Positive count of stack's
+                        items
+        """
+
+        return len( self._DATA )
