@@ -1,0 +1,15 @@
+# dir
+.idea
+.pytest_cache
+.venv
+.vscode
+**/*__pycache**
+**.egg-info
+build
+coverage_html/
+dist-*
+target
+
+# file
+*.swp
+.coverage
