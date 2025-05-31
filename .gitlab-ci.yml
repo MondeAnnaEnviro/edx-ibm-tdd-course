@@ -1,0 +1,10 @@
+stages:
+  - test
+
+test:java:
+  stage: test
+  image: maven:3.9.6-eclipse-temurin-21
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /java/i'
+  script:
+    - mvn test
