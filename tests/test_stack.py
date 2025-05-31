@@ -18,20 +18,8 @@ def test_new_stack_is_empty( stack ):
     assert stack.empty()
 
 
-def test_push_increases_size_by_one( stack, filled_stack ):
-    init_len = len( filled_stack )
-    final_len = len( filled_stack.push( 34 ))
-
-    assert final_len == init_len + 1
-    assert len( stack.push( 100 )) == 1
-
-
-def test_stack_with_items_is_not_empty( filled_stack ):
+def test_filled_stack_is_not_empty( filled_stack ):
     assert not filled_stack.empty()
-
-
-def test_last_push_is_on_top( filled_stack ):
-    assert filled_stack.peek() == 7
 
 
 def test_peeking_empty_stack_raises_error( stack ):
@@ -40,29 +28,49 @@ def test_peeking_empty_stack_raises_error( stack ):
         Stack().peek()
 
 
+def test_peeking_reveals_top_item( filled_stack ):
+    assert filled_stack.peek() == 7
+
+
+def test_pushing_onto_empty_stack_yields_size_of_one( stack ):
+    assert len( stack.push( 100 )) == 1
+
+
+def test_pushing_onto_filled_stack_increases_size_by_one( filled_stack ):
+    init_len = len( filled_stack )
+    final_len = len( filled_stack.push( 34 ))
+
+    assert final_len == init_len + 1
+
+
 def test_popping_empty_stack_raises_error( stack ):
     match = "cannot pop empty stack"
     with pytest.raises( RuntimeError, match=match ):
         stack.pop()
 
 
-def test_pop_returns_last_pushed_item( filled_stack ):
+def test_popping_returns_last_pushed_item( filled_stack ):
+    assert filled_stack.pop() == 7
+
+
+def test_popping_reduces_stack_size_by_one( filled_stack ):
     init_len = len( filled_stack )
-    popped_value = filled_stack.pop()
+    filled_stack.pop()
     final_len = len( filled_stack )
 
     assert final_len == init_len - 1
-    assert popped_value == 7
 
 
 def test_n_pushes_and_n_pops_render_empty_stack( stack ):
     stack.push( 83 )
     stack.pop()
+
     assert stack.empty()
 
 
 def test_three_pushes_and_one_pop_leave_two_item( stack ):
     stack.push( 55 ).push( 45 ).push( 44 )
     stack.pop()
+
     assert len( stack ) == 2
     assert stack.peek() == 45
