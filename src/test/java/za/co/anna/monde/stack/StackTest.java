@@ -65,4 +65,12 @@ class StackTest {
         assertEquals( 184, stack.pop() );
         assertEquals( 52, stack.pop() );
     }
+
+    @Test
+    public void multiOperationalProcessing(){
+        Stack stack = new Stack().push( 23 );
+        assertEquals( 1, stack.size() );
+        assertEquals( 33, stack.push( 15 ).push( 33 ).peek() );
+        assertEquals( 33, stack.pop() );
+    }
 }
