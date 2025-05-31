@@ -11,6 +11,12 @@ class Stack {
         return entries.isEmpty();
     }
 
+    public int peek() throws IllegalStateException {
+        throw new IllegalStateException(
+                "unable to peek at empty stack"
+        );
+    }
+
     public Stack push( int integer ){
         entries.add( integer );
         return this;

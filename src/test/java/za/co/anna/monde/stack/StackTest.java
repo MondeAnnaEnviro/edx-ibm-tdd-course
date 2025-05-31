@@ -2,6 +2,7 @@ package za.co.anna.monde.stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -30,5 +31,15 @@ class StackTest {
     @Test
     public void afterNthPushStackIsSizeN(){
         assertEquals( 2, new Stack().push( 1 ).push( 2 ).size() );
+    }
+
+    @Test
+    public void peekingEmptyStackThrowsException(){
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> new Stack().peek()
+        );
+
+        assertEquals( "unable to peek at empty stack", exception.getMessage() );
     }
 }
