@@ -47,7 +47,12 @@ def test_popping_empty_stack_raises_error( stack ):
 
 
 def test_pop_returns_last_pushed_item( filled_stack ):
-    assert filled_stack.pop() == 7
+    init_len = len( filled_stack )
+    popped_value = filled_stack.pop()
+    final_len = len( filled_stack )
+
+    assert final_len == init_len - 1
+    assert popped_value == 7
 
 
 def test_n_pushes_and_n_pops_render_empty_stack( stack ):
