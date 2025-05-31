@@ -42,4 +42,9 @@ class StackTest {
 
         assertEquals( "unable to peek at empty stack", exception.getMessage() );
     }
+
+    @Test
+    public void peekingAtPopulatedStackProvidesLastEntry(){
+        assertEquals( 33, new Stack().push( 3 ).push( 0 ).push( 33 ).peek() );
+    }
 }
