@@ -18,7 +18,11 @@ def test_new_stack_is_empty( stack ):
     assert stack.empty()
 
 
-def test_push_increases_size_by_one( stack ):
+def test_push_increases_size_by_one( stack, filled_stack ):
+    init_len = len( filled_stack )
+    final_len = len( filled_stack.push( 34 ))
+
+    assert final_len == init_len + 1
     assert len( stack.push( 100 )) == 1
 
 
