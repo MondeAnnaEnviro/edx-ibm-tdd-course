@@ -1,21 +1,22 @@
 package za.co.anna.monde.stack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Stack {
 
-    private boolean isEmpty = true;
+    private List<Integer> entries = new ArrayList<>();
 
     public boolean isEmpty(){
-        return isEmpty;
+        return entries.isEmpty();
     }
 
     public Stack push( int integer ){
-        isEmpty = false;
+        entries.add( integer );
         return this;
     }
 
     public int size(){
-        return isEmpty ? 0 : 1;
+        return entries.size();
     }
 }
