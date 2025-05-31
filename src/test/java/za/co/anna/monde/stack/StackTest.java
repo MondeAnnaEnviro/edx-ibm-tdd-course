@@ -57,4 +57,12 @@ class StackTest {
 
         assertEquals( "unable to pop from empty stack", exception.getMessage() );
     }
+
+    @Test
+    public void poppingAtPopulatedStackRemovesAndReturnsLastEntry(){
+        Stack stack = new Stack().push( 52 ).push( 184 ).push( -2 );
+        assertEquals( -2, stack.pop() );
+        assertEquals( 184, stack.pop() );
+        assertEquals( 52, stack.pop() );
+    }
 }
