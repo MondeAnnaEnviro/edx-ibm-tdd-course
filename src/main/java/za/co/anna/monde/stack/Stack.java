@@ -20,6 +20,12 @@ class Stack {
         );
     }
 
+    public int pop() throws IllegalStateException {
+        throw new IllegalStateException(
+                "unable to pop from empty stack"
+        );
+    }
+
     public Stack push( int integer ){
         entries.add( integer );
         return this;
