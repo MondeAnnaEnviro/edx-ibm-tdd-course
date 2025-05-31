@@ -4,7 +4,14 @@ import java.util.List;
 
 class Stack {
 
+    private boolean isEmpty = true;
+
     public boolean isEmpty(){
-        return true;
+        return isEmpty;
+    }
+
+    public Stack push( int integer ){
+        isEmpty = false;
+        return this;
     }
 }
