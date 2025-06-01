@@ -18,6 +18,11 @@ class StackTest {
     }
 
     @Test
+    public void anEmptyStackHasSizeOfZero(){
+        assertEquals( 0, new Stack().size() );
+    }
+
+    @Test
     public void firstPushIncreasesSizeToOne(){
         assertEquals( 1, new Stack().push( 10 ).size() );
     }
