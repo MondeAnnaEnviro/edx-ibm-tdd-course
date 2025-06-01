@@ -1,4 +1,8 @@
 module Stack where
 
-sum_ :: Int -> Int
-sum_ a = sum [ a, a, a ]
+
+data Stack a = Stack [ a ] deriving Show
+
+
+peek :: Stack a -> a
+peek ( Stack x ) = head x
