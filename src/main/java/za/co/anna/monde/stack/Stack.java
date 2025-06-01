@@ -21,9 +21,15 @@ class Stack {
     }
 
     public int pop() throws IllegalStateException {
-        throw new IllegalStateException(
-                "unable to pop from empty stack"
-        );
+        if ( isEmpty() )
+          throw new IllegalStateException(
+                    "unable to pop from empty stack"
+            );
+
+        int lastEntry = entries.getLast();
+        entries.remove( size() - 1 );
+
+        return lastEntry;
     }
 
     public Stack push( int integer ){
