@@ -12,6 +12,9 @@ class Stack {
     }
 
     public int peek() throws IllegalStateException {
+        if ( !isEmpty() )
+            return entries.getLast();
+
         throw new IllegalStateException(
                 "unable to peek at empty stack"
         );
