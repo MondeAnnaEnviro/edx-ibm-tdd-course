@@ -47,4 +47,14 @@ class StackTest {
     public void peekingAtPopulatedStackProvidesLastEntry(){
         assertEquals( 33, new Stack().push( 3 ).push( 0 ).push( 33 ).peek() );
     }
+
+    @Test
+    public void poppingEmptyStackThrowsException(){
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> new Stack().pop()
+        );
+
+        assertEquals( "unable to pop from empty stack", exception.getMessage() );
+    }
 }
