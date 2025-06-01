@@ -26,4 +26,9 @@ class StackTest {
     public void firstPushIncreasesSizeToOne(){
         assertEquals( 1, new Stack().push( 10 ).size() );
     }
+
+    @Test
+    public void afterNthPushStackIsSizeN(){
+        assertEquals( 2, new Stack().push( 1 ).push( 2 ).size() );
+    }
 }
