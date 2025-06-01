@@ -14,4 +14,8 @@ class Stack {
         isEmpty = false;
         return this;
     }
+
+    public int size(){
+        return 1;
+    }
 }
