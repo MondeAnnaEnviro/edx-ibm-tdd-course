@@ -4,4 +4,7 @@ import java.util.List;
 
 class Stack {
 
+    public boolean isEmpty(){
+        return true;
+    }
 }
