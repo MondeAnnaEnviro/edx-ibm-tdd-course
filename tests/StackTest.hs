@@ -19,29 +19,34 @@ main = hspec $ do
 
 
   describe "peek" $ do
+    it "where no item present, shows nothing" $ do
+      peek empty `shouldBe` ( Nothing :: Maybe [ Char ])
+      peek empty `shouldBe` ( Nothing :: Maybe Char )
+      peek empty `shouldBe` ( Nothing :: Maybe Int )
+
     it "where one item present, said item shows" $ do
       let stack = Stack [ 44 ]
-      peek stack `shouldBe` ( 44 :: Int )
+      peek stack `shouldBe` ( Just 44 :: Maybe Int )
 
     it "where many items present, left-most item shows" $ do
       {- recall: adding uses `cons`, thus prepends to list
        - consequently, the left most item is the last addition
        -}
       let stack = Stack [ 653, 1, 66, 903, 43 ]
-      peek stack `shouldBe` ( 653 :: Int )
+      peek stack `shouldBe` ( Just 653 :: Maybe Int )
 
     it "works with all types, while being type specific" $ do
       let chars = Stack [ 'c', 'h', 'a', 'r', 's' ]
-      peek chars `shouldBe` ( 'c' :: Char )
+      peek chars `shouldBe` ( Just 'c' :: Maybe Char )
 
       let strs = Stack [ "star" ]
-      peek strs `shouldBe` ( "star" :: String )
+      peek strs `shouldBe` ( Just "star" :: Maybe String )
 
       let doubles = Stack [ 44.44 ]
-      peek doubles `shouldBe` ( 44.44 :: Double )
+      peek doubles `shouldBe` ( Just 44.44 :: Maybe Double )
 
       let floats = Stack [ 0.11 ]
-      peek floats `shouldBe` ( 0.11 :: Float )
+      peek floats `shouldBe` ( Just 0.11 :: Maybe Float )
 
 
   describe "pop" $ do
@@ -72,7 +77,7 @@ main = hspec $ do
       let stack = push "word" empty
 
       isEmpty stack `shouldBe` False
-      peek stack `shouldBe` ( "word" :: String )
+      peek stack `shouldBe` ( Just "word" :: Maybe String )
       size stack `shouldBe` ( 1 :: Int )
 
     it "n pushes makes for n sized stack" $ do
@@ -89,9 +94,9 @@ main = hspec $ do
       size second `shouldBe` ( 2 :: Int )
       size third `shouldBe` ( 3 :: Int )
 
-      peek first `shouldBe` ( "first" :: String )
-      peek second `shouldBe` ( "second" :: String )
-      peek third `shouldBe` ( "third" :: String )
+      peek first `shouldBe` ( Just "first" :: Maybe String )
+      peek second `shouldBe` ( Just "second" :: Maybe String )
+      peek third `shouldBe` ( Just "third" :: Maybe String )
 
 
   describe "size" $ do
