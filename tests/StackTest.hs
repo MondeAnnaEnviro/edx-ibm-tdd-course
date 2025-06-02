@@ -25,3 +25,6 @@ main = hspec $ do
   describe "isEmpty" $ do
     it "where no items present, return true" $ do
       isEmpty ( Stack [] ) `shouldBe` True
+
+    it "where items present, return false" $ do
+      isEmpty ( Stack [ "value" ]) `shouldBe` False
