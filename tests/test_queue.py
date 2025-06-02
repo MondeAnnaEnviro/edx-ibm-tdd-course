@@ -8,16 +8,19 @@ class Queue:
     def __init__( self ):
         self.array = []
 
+    def enqueue( self, value : Any ) -> Self:
+        self.array.append( value )
+        return self
+
+    def dequeue( self ) -> Any:
+        ...
+
     def is_empty( self ) -> bool:
         return self.size() == 0
 
     def peek( self ) -> Any | None:
         if self.array:
             return self.array[ 0 ]
-
-    def enqueue( self, value : Any ) -> Self:
-        self.array.append( value )
-        return self
 
     def size( self ) -> int:
         return len( self.array )
@@ -53,3 +56,7 @@ def test_enqueue_of_multiple_items( queue ):
     assert queue.size() == 4
     assert not queue.is_empty()
     assert queue.peek() == 0
+
+
+def test_dequeue_empty_queue( queue ):
+    assert queue.dequeue() == None
