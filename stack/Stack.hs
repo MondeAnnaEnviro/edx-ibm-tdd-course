@@ -1,4 +1,4 @@
-module Stack where
+module Stack ( Stack, empty, isEmpty, peek, pop, push, size ) where
 
 
 data Stack a = Stack [ a ] deriving ( Show, Eq )
@@ -19,7 +19,7 @@ peek ( Stack x ) = Just $ head x
 
 pop :: Stack a -> ( Maybe a, Stack a )
 pop ( Stack [] ) = ( Nothing, Stack [] )
-pop ( Stack ( x:xs )) = ( Just x, Stack ( xs ))
+pop ( Stack ( x:xs )) = ( Just x, Stack xs )
 
 
 push :: a -> Stack a -> Stack a
