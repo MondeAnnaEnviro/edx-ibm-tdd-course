@@ -67,3 +67,10 @@ def test_dequeue_when_one_item_present( queue ):
     queue.enqueue( "single" )
     assert queue.dequeue() == "single"
     assert queue.is_empty()
+
+
+def test_dequeue_when_two_items_present( queue ):
+    queue.enqueue( "init" ).enqueue( "repeat" )
+    assert queue.dequeue() == "init"
+    assert queue.size() == 1
+    assert queue.peek() == "repeat"
