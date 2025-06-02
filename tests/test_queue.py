@@ -15,7 +15,7 @@ class Queue:
         if self.array:
             return self.array[ 0 ]
 
-    def push( self, value : Any ) -> Self:
+    def enqueue( self, value : Any ) -> Self:
         self.array.append( value )
         return self
 
@@ -35,14 +35,21 @@ def test_queue_emptyness( queue ):
 
 
 def test_enqueue_of_one_item( queue ):
-    queue.push( "Item" )
+    queue.enqueue( "Item" )
     assert queue.size() == 1
     assert not queue.is_empty()
     assert queue.peek() == "Item"
 
 
 def test_enqueue_of_two_items( queue ):
-    queue.push( "first" ).push( "second" )
+    queue.enqueue( "first" ).enqueue( "second" )
     assert queue.size() == 2
     assert not queue.is_empty()
     assert queue.peek() == "first"
+
+
+def test_enqueue_of_multiple_items( queue ):
+    queue.enqueue( 0 ).enqueue( 1 ).enqueue( 2 ).enqueue( 3 )
+    assert queue.size() == 4
+    assert not queue.is_empty()
+    assert queue.peek() == 0
