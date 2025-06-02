@@ -12,8 +12,9 @@ isEmpty :: Stack a -> Bool
 isEmpty ( Stack x ) = null x
 
 
-peek :: Stack a -> a
-peek ( Stack x ) = head x
+peek :: Stack a -> Maybe a
+peek ( Stack [] ) = Nothing
+peek ( Stack x ) = Just $ head x
 
 
 pop :: Stack a -> ( Maybe a, Stack a )
