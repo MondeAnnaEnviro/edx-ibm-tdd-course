@@ -43,3 +43,7 @@ main = hspec $ do
       isEmpty stack `shouldBe` False
       peek stack `shouldBe` ( "word" :: String )
       size stack `shouldBe` ( 1 :: Int )
+
+    it "n pushes makes for n sized stack" $ do
+      let stack = push 4 $ push 77 $ push 4 ( Stack [] )
+      size ( stack :: Stack Int ) `shouldBe` ( 3 :: Int )
