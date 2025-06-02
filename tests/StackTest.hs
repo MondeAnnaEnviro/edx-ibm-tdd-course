@@ -11,19 +11,28 @@ main = hspec $ do
 
   describe "peek" $ do
     it "where one item present, said item shows" $ do
-      peek ( Stack [ 44 ]) `shouldBe` ( 44 :: Int )
+      let stack = Stack [ 44 ]
+      peek stack `shouldBe` ( 44 :: Int )
 
     it "where many items present, left-most item shows" $ do
       {- recall: adding uses `cons`, thus prepends to list
        - consequently, the left most item is the last addition
        -}
-      peek ( Stack [ 653, 1, 66, 903, 43 ]) `shouldBe` ( 653 :: Int )
+      let stack = Stack [ 653, 1, 66, 903, 43 ]
+      peek stack `shouldBe` ( 653 :: Int )
 
     it "works with all types, while being type specific" $ do
-      peek ( Stack [ 's', 't', 'a', 'r' ]) `shouldBe` ( 's' :: Char )
-      peek ( Stack [ "star" ]) `shouldBe` ( "star" :: String )
-      peek ( Stack [ 44.44 ]) `shouldBe` ( 44.44 :: Double )
-      peek ( Stack [ 0.11 ]) `shouldBe` ( 0.11 :: Float )
+      let chars = Stack [ 'c', 'h', 'a', 'r', 's' ]
+      peek chars `shouldBe` ( 'c' :: Char )
+
+      let strs = Stack [ "star" ]
+      peek strs `shouldBe` ( "star" :: String )
+
+      let doubles = Stack [ 44.44 ]
+      peek doubles `shouldBe` ( 44.44 :: Double )
+
+      let floats = Stack [ 0.11 ]
+      peek floats `shouldBe` ( 0.11 :: Float )
 
 
   describe "isEmpty" $ do
@@ -31,7 +40,8 @@ main = hspec $ do
       isEmpty empty `shouldBe` True
 
     it "where items present, return false" $ do
-      isEmpty ( Stack [ "value" ]) `shouldBe` False
+      let stack = Stack [ "value" ]
+      isEmpty stack `shouldBe` False
 
 
   describe "size" $ do
@@ -39,7 +49,8 @@ main = hspec $ do
       size empty `shouldBe` ( 0 :: Int )
 
     it "where items present, returns number of items present" $ do
-      size (( Stack [ 5, 5, 5, 5 ]) :: Stack Int ) `shouldBe` ( 4 :: Int )
+      let stack = Stack [ 5, 5, 5, 5 ] :: Stack Int
+      size stack `shouldBe` ( 4 :: Int )
 
 
   describe "push" $ do
