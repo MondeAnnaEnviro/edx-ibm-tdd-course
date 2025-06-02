@@ -9,6 +9,15 @@ main :: IO ()
 main = hspec $ do
 
 
+  describe "isEmpty" $ do
+    it "where no items present, return true" $ do
+      isEmpty empty `shouldBe` True
+
+    it "where items present, return false" $ do
+      let stack = Stack [ "value" ]
+      isEmpty stack `shouldBe` False
+
+
   describe "peek" $ do
     it "where one item present, said item shows" $ do
       let stack = Stack [ 44 ]
@@ -33,24 +42,6 @@ main = hspec $ do
 
       let floats = Stack [ 0.11 ]
       peek floats `shouldBe` ( 0.11 :: Float )
-
-
-  describe "isEmpty" $ do
-    it "where no items present, return true" $ do
-      isEmpty empty `shouldBe` True
-
-    it "where items present, return false" $ do
-      let stack = Stack [ "value" ]
-      isEmpty stack `shouldBe` False
-
-
-  describe "size" $ do
-    it "where no items, returns zero" $ do
-      size empty `shouldBe` ( 0 :: Int )
-
-    it "where items present, returns number of items present" $ do
-      let stack = Stack [ 5, 5, 5, 5 ] :: Stack Int
-      size stack `shouldBe` ( 4 :: Int )
 
 
   describe "push" $ do
@@ -78,3 +69,12 @@ main = hspec $ do
       peek first `shouldBe` ( "first" :: String )
       peek second `shouldBe` ( "second" :: String )
       peek third `shouldBe` ( "third" :: String )
+
+
+  describe "size" $ do
+    it "where no items, returns zero" $ do
+      size empty `shouldBe` ( 0 :: Int )
+
+    it "where items present, returns number of items present" $ do
+      let stack = Stack [ 5, 5, 5, 5 ] :: Stack Int
+      size stack `shouldBe` ( 4 :: Int )
