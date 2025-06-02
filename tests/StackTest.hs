@@ -45,6 +45,11 @@ main = hspec $ do
 
 
   describe "pop" $ do
+    it "where no items present, returns nothing" $ do
+      pop ( empty :: Stack [ Char ]) `shouldBe` ( Nothing, empty :: Stack a )
+      pop ( empty :: Stack Char ) `shouldBe` ( Nothing, empty :: Stack a )
+      pop ( empty :: Stack Int ) `shouldBe` ( Nothing, empty :: Stack a )
+
     it "where one item present, returns item and smaller stack" $ do
       let stack = Stack [ "single" ]
       let ( item, smallerStack ) = pop stack
