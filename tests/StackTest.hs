@@ -28,3 +28,7 @@ main = hspec $ do
 
     it "where items present, return false" $ do
       isEmpty ( Stack [ "value" ]) `shouldBe` False
+
+  describe "size" $ do
+    it "where no items, returns zero" $ do
+      size ( Stack [] ) `shouldBe` ( 0 :: Int )
