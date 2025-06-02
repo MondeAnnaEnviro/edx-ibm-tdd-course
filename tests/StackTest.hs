@@ -32,3 +32,6 @@ main = hspec $ do
   describe "size" $ do
     it "where no items, returns zero" $ do
       size ( Stack [] ) `shouldBe` ( 0 :: Int )
+
+    it "where items present, returns number of items present" $ do
+      size (( Stack [ 5, 5, 5, 5 ]) :: Stack Int ) `shouldBe` ( 4 :: Int )
