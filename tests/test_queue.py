@@ -13,7 +13,8 @@ class Queue:
         return self
 
     def dequeue( self ) -> Any:
-        ...
+        if self.array:
+            return self.array.pop( 0 )
 
     def is_empty( self ) -> bool:
         return self.size() == 0
@@ -60,3 +61,9 @@ def test_enqueue_of_multiple_items( queue ):
 
 def test_dequeue_empty_queue( queue ):
     assert queue.dequeue() == None
+
+
+def test_dequeue_when_one_item_present( queue ):
+    queue.enqueue( "single" )
+    assert queue.dequeue() == "single"
+    assert queue.is_empty()
