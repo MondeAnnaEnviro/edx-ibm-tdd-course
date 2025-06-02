@@ -21,3 +21,7 @@ main = hspec $ do
       peek ( Stack [ "star" ]) `shouldBe` ( "star" :: String )
       peek ( Stack [ 44.44 ]) `shouldBe` ( 44.44 :: Double )
       peek ( Stack [ 0.11 ]) `shouldBe` ( 0.11 :: Float )
+
+  describe "isEmpty" $ do
+    it "where no items present, return true" $ do
+      isEmpty ( Stack [] ) `shouldBe` True
