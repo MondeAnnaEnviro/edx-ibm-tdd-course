@@ -16,6 +16,10 @@ peek :: Stack a -> a
 peek ( Stack x ) = head x
 
 
+pop :: Stack a -> ( Maybe a, Stack a )
+pop ( Stack ( x:xs )) = ( Just x, Stack ( xs ))
+
+
 push :: a -> Stack a -> Stack a
 push x ( Stack xs ) = Stack ( x:xs )
 

@@ -44,6 +44,16 @@ main = hspec $ do
       peek floats `shouldBe` ( 0.11 :: Float )
 
 
+  describe "pop" $ do
+    it "where items present, returned is an item and smaller stack" $ do
+      let stack = Stack [ "single" ]
+      let ( item, smallerStack ) = pop stack
+
+      item `shouldBe` ( Just "single" :: Maybe String )
+      size stack `shouldBe` ( 1 :: Int )
+      size smallerStack `shouldBe` ( 0 :: Int )
+
+
   describe "push" $ do
     it "where no items present, should add one item" $ do
       let stack = push "word" empty
