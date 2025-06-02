@@ -64,3 +64,17 @@ main = hspec $ do
     it "n pushes makes for n sized stack" $ do
       let stack = push 4 $ push 77 $ push 4 empty
       size ( stack :: Stack Int ) `shouldBe` ( 3 :: Int )
+      size stack `shouldBe` ( 3 :: Int )
+
+    it "ensure 'last in; first out' pattern" $ do
+      let first = push "first" empty
+      let second = push "second" first
+      let third = push "third" second
+
+      size first `shouldBe` ( 1 :: Int )
+      size second `shouldBe` ( 2 :: Int )
+      size third `shouldBe` ( 3 :: Int )
+
+      peek first `shouldBe` ( "first" :: String )
+      peek second `shouldBe` ( "second" :: String )
+      peek third `shouldBe` ( "third" :: String )
