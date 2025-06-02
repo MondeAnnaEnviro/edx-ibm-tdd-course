@@ -35,3 +35,11 @@ main = hspec $ do
 
     it "where items present, returns number of items present" $ do
       size (( Stack [ 5, 5, 5, 5 ]) :: Stack Int ) `shouldBe` ( 4 :: Int )
+
+  describe "push" $ do
+    it "where no items present, should add one item" $ do
+      let stack = push "word" ( Stack [] )
+
+      isEmpty stack `shouldBe` False
+      peek stack `shouldBe` ( "word" :: String )
+      size stack `shouldBe` ( 1 :: Int )

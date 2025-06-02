@@ -14,3 +14,7 @@ peek ( Stack x ) = head x
 
 size :: Stack a -> Int
 size ( Stack x ) = length x
+
+
+push :: a -> Stack a -> Stack a
+push x ( Stack xs ) = Stack ( x:xs )
