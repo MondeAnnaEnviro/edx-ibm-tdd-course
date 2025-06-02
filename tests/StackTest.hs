@@ -45,13 +45,21 @@ main = hspec $ do
 
 
   describe "pop" $ do
-    it "where items present, returned is an item and smaller stack" $ do
+    it "where one item present, returns item and smaller stack" $ do
       let stack = Stack [ "single" ]
       let ( item, smallerStack ) = pop stack
 
       item `shouldBe` ( Just "single" :: Maybe String )
       size stack `shouldBe` ( 1 :: Int )
       size smallerStack `shouldBe` ( 0 :: Int )
+
+    it "where many items present, returns left-most item" $ do
+      let stack = Stack [ "left", "middle", "right" ]
+      let ( item, smallerStack ) = pop stack
+
+      item `shouldBe` ( Just "left" :: Maybe String )
+      size stack `shouldBe` ( 3 :: Int )
+      size smallerStack `shouldBe` ( 2 :: Int )
 
 
   describe "push" $ do
