@@ -20,7 +20,7 @@ main = hspec $ do
 
   describe "peek" $ do
     it "where no item present, shows nothing" $ do
-      peek empty `shouldBe` ( Nothing :: Maybe [ Char ])
+      peek empty `shouldBe` ( Nothing :: Maybe String )
       peek empty `shouldBe` ( Nothing :: Maybe Char )
       peek empty `shouldBe` ( Nothing :: Maybe Int )
 
@@ -51,7 +51,7 @@ main = hspec $ do
 
   describe "pop" $ do
     it "where no items present, returns nothing" $ do
-      pop ( empty :: Stack [ Char ]) `shouldBe` ( Nothing, empty :: Stack a )
+      pop ( empty :: Stack String ) `shouldBe` ( Nothing, empty :: Stack a )
       pop ( empty :: Stack Char ) `shouldBe` ( Nothing, empty :: Stack a )
       pop ( empty :: Stack Int ) `shouldBe` ( Nothing, empty :: Stack a )
 
