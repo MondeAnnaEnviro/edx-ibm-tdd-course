@@ -1,0 +1,12 @@
+stages:
+  - test
+
+test:python:
+  stage: test
+  image: python:3.12
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /python/i'
+  script:
+    - pip install --upgrade pip
+    - pip install pytest
+    - python3 -m pytest -v
