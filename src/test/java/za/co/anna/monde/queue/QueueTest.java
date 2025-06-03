@@ -53,4 +53,9 @@ class QueueTest {
     public void peekingWhereThereIsOneElementShowsSaidElement(){
         assertThat( queue.push( 77 ).peek() ).isEqualTo( 77 );
     }
+
+    @Test
+    public void peekingMultipleElementsShowsFirstElement(){
+        assertThat( queue.push( 0 ).push( 1 ).push( 2 ).peek() ).isEqualTo( 0 );
+    }
 }

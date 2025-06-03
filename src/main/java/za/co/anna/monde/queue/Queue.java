@@ -34,7 +34,7 @@ class Queue {
         if ( index < 0 )
             throw new IllegalArgumentException();
 
-        return integers[ index ];
+        return integers[ 0 ];
     }
 
     public Queue push( int integer ){
