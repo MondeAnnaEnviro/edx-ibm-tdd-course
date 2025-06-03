@@ -58,4 +58,12 @@ class QueueTest {
     public void peekingMultipleElementsShowsFirstElement(){
         assertThat( queue.push( 0 ).push( 1 ).push( 2 ).peek() ).isEqualTo( 0 );
     }
+
+    @Test
+    public void pushOnce(){
+        queue.push( 0 );
+        assertThat( queue.size() ).isEqualTo( 1 );
+        assertThat( queue.peek() ).isEqualTo( 0 );
+        assertThat( queue.isEmpty() ).isFalse();
+    }
 }
