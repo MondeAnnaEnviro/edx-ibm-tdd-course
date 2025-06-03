@@ -74,4 +74,12 @@ class QueueTest {
         assertThat( queue.peek() ).isEqualTo( 10 );
         assertThat( queue.isEmpty() ).isFalse();
     }
+
+    @Test
+    public void pushMultipleTimes(){
+        queue.push( -1 ).push( -2 ).push( -3 ).push( -4 );
+        assertThat( queue.size() ).isEqualTo( 4 );
+        assertThat( queue.peek() ).isEqualTo( -1 );
+        assertThat( queue.isEmpty() ).isFalse();
+    }
 }
