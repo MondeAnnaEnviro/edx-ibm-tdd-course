@@ -34,4 +34,10 @@ class QueueTest {
     public void aNewQueueIsEmpty(){
         assertThat( queue.isEmpty() ).isTrue();
     }
+
+    @Test
+    public void aPopulatedQueueIsNotEmpty(){
+        assertThat( new Queue( 0 ).isEmpty() ).isFalse();
+        assertThat( new Queue( new int[]{ 0 }).isEmpty() ).isFalse();
+    }
 }
