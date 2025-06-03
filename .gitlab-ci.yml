@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test:haskell:
+  stage: test
+  image: "haskell:9.6.7"
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /haskell/i'
+  script:
+    - cabal --verbose=0 update
+    - cabal --verbose=0 test
