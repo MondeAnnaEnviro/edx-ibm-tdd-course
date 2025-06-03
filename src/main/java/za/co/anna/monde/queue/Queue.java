@@ -12,6 +12,10 @@ class Queue {
         integers = new int[]{ integer };
     }
 
+    public Queue( int[] integers ){
+        this.integers = integers;
+    }
+
     public int size(){
         return integers.length;
     }

@@ -23,4 +23,10 @@ class QueueTest {
         Queue queue = new Queue( 1 );
         assertThat( queue.size() ).isEqualTo( 1 );
     }
+
+    @Test
+    public void aMultiElementQueueIsSizeN(){
+        Queue queue = new Queue( new int[]{ 0, 1, 2, 3, 4 });
+        assertThat( queue.size() ).isEqualTo( 5 );
+    }
 }
