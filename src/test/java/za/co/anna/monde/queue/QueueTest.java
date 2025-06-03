@@ -1,6 +1,7 @@
 package za.co.anna.monde.queue;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatRuntimeException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,5 +92,12 @@ class QueueTest {
         assertThat( queue.size() ).isEqualTo( 4 );
         assertThat( queue.peek() ).isEqualTo( 0 );
         assertThat( queue.isEmpty() ).isFalse();
+    }
+
+    @Test
+    public void dequeueOfEmptyQueueThrows(){
+        assertThatRuntimeException().isThrownBy(
+            () -> queue.dequeue()
+        );
     }
 }

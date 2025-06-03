@@ -23,8 +23,15 @@ class Queue {
         index = integers.length - 1;
     }
 
-    public int size(){
-        return index + 1;
+    public int dequeue(){
+        throw new RuntimeException();
+    }
+
+    public Queue enqueue( int integer ){
+        if ( index + 1 == queueSize )
+            integers = increaseIntegers( integers );
+        integers[ ++index ] = integer;
+        return this;
     }
 
     public boolean isEmpty(){
@@ -38,11 +45,8 @@ class Queue {
         return integers[ 0 ];
     }
 
-    public Queue enqueue( int integer ){
-        if ( index + 1 == queueSize )
-            integers = increaseIntegers( integers );
-        integers[ ++index ] = integer;
-        return this;
+    public int size(){
+        return index + 1;
     }
 
     private int[] increaseIntegers( int[] integers ){
