@@ -2,6 +2,7 @@ package za.co.anna.monde.queue;
 
 class Queue {
 
+    private final int BASE_SIZE = 10;
     private int[] integers;
     private int queueSize;
     private int index;
@@ -38,7 +39,17 @@ class Queue {
     }
 
     public Queue push( int integer ){
+        if ( index + 1 == queueSize )
+            integers = increaseIntegers( integers );
         integers[ ++index ] = integer;
         return this;
+    }
+
+    private int[] increaseIntegers( int[] integers ){
+        int[] newIntegers = new int[ integers.length + BASE_SIZE ];
+
+        for ( int iter = 0; iter < integers.length; iter++ )
+            newIntegers[ iter ] = integers[ iter ];
+        return newIntegers;
     }
 }

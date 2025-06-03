@@ -82,4 +82,12 @@ class QueueTest {
         assertThat( queue.peek() ).isEqualTo( -1 );
         assertThat( queue.isEmpty() ).isFalse();
     }
+
+    @Test
+    public void pushMoreThanInitialSizeOfQueue(){
+        queue = new Queue( new int[]{ 0, 1, 2 }).push( 3 );
+        assertThat( queue.size() ).isEqualTo( 4 );
+        assertThat( queue.peek() ).isEqualTo( 0 );
+        assertThat( queue.isEmpty() ).isFalse();
+    }
 }
