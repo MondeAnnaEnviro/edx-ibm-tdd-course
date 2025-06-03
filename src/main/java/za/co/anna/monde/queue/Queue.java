@@ -3,21 +3,27 @@ package za.co.anna.monde.queue;
 class Queue {
 
     private int[] integers;
+    private int queueSize;
+    private int index;
 
     public Queue(){
-        integers = new int[]{};
+        this( 10 );
     }
 
-    public Queue( int integer ){
-        integers = new int[]{ integer };
+    public Queue( int initialSize ){
+        integers = new int[initialSize];
+        queueSize = initialSize;
+        index = -1;
     }
 
     public Queue( int[] integers ){
         this.integers = integers;
+        queueSize = integers.length;
+        index = integers.length - 1;
     }
 
     public int size(){
-        return integers.length;
+        return index + 1;
     }
 
     public boolean isEmpty(){
@@ -26,5 +32,10 @@ class Queue {
 
     public int peek(){
         throw new IllegalArgumentException();
+    }
+
+    public Queue push( int integer ){
+        integers[ ++index ] = integer;
+        return this;
     }
 }

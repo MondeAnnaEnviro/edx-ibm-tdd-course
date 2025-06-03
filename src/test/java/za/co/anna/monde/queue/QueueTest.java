@@ -21,7 +21,7 @@ class QueueTest {
 
     @Test
     public void aQueueWithSingleElementIsSizeOne(){
-        Queue queue = new Queue( 1 );
+        queue = new Queue( 1 ).push( 22 );
         assertThat( queue.size() ).isEqualTo( 1 );
     }
 
@@ -38,7 +38,7 @@ class QueueTest {
 
     @Test
     public void aPopulatedQueueIsNotEmpty(){
-        assertThat( new Queue( 0 ).isEmpty() ).isFalse();
+        assertThat( new Queue().push( 0 ).isEmpty() ).isFalse();
         assertThat( new Queue( new int[]{ 0 }).isEmpty() ).isFalse();
     }
 
