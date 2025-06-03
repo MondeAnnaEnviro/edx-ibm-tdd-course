@@ -12,4 +12,9 @@ class QueueTest {
     public void setUp(){
         queue = new Queue();
     }
+
+    @Test
+    public void anEmptyQueueIsSizeZero(){
+        assertThat( queue.size() ).isEqualTo( 0 );
+    }
 }
