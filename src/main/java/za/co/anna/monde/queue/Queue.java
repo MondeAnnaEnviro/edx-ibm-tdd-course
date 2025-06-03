@@ -38,7 +38,7 @@ class Queue {
 
     public Queue enqueue( int integer ){
         if ( index + 1 == integers.length )
-            integers = increaseIntegers( integers );
+            integers = increaseArraySize( integers );
         integers[ ++index ] = integer;
         return this;
     }
@@ -58,7 +58,7 @@ class Queue {
         return index + 1;
     }
 
-    private int[] increaseIntegers( int[] integers ){
+    private int[] increaseArraySize( int[] integers ){
         int[] newIntegers = new int[ integers.length + BASE_SIZE ];
 
         for ( int iter = 0; iter < integers.length; iter++ )
