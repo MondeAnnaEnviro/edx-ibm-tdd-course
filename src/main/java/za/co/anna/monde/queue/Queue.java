@@ -19,4 +19,8 @@ class Queue {
     public int size(){
         return integers.length;
     }
+
+    public boolean isEmpty(){
+        return true;
+    }
 }

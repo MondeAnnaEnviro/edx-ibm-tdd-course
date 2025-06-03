@@ -14,7 +14,7 @@ class QueueTest {
     }
 
     @Test
-    public void anEmptyQueueIsSizeZero(){
+    public void anNewQueueIsSizeZero(){
         assertThat( queue.size() ).isEqualTo( 0 );
     }
 
@@ -28,5 +28,10 @@ class QueueTest {
     public void aMultiElementQueueIsSizeN(){
         Queue queue = new Queue( new int[]{ 0, 1, 2, 3, 4 });
         assertThat( queue.size() ).isEqualTo( 5 );
+    }
+
+    @Test
+    public void aNewQueueIsEmpty(){
+        assertThat( queue.isEmpty() ).isTrue();
     }
 }
