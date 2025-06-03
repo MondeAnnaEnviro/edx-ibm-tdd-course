@@ -24,7 +24,19 @@ class Queue {
     }
 
     public int dequeue(){
-        throw new RuntimeException();
+        if ( index == -1 )
+            throw new RuntimeException();
+
+        int[] newIntegers = new int[ integers.length - 1 ];
+
+        for ( int iter = 0; iter < newIntegers.length; iter++ )
+            newIntegers[ iter ] = integers[ iter + 1 ];
+
+        int dequeuedValue = integers[ 0 ];
+        integers = newIntegers;
+        index--;
+
+        return dequeuedValue;
     }
 
     public Queue enqueue( int integer ){

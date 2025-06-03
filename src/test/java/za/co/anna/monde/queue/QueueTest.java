@@ -100,4 +100,13 @@ class QueueTest {
             () -> queue.dequeue()
         );
     }
+
+    @Test
+    public void dequeueOfSingleElementReturnsSaidElement(){
+        int dequeued = queue.enqueue( 5 ).dequeue();
+
+        assertThat( dequeued ).isEqualTo( 5 );
+        assertThat( queue.size() ).isEqualTo( 0 );
+        assertThat( queue.isEmpty() ).isTrue();
+    }
 }
