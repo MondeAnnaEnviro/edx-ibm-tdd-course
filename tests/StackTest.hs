@@ -9,7 +9,7 @@ main :: IO ()
 main = hspec $ do
 
 
-  describe "isEmpty" $ do
+  describe "\n\nisEmpty" $ do
     it "where no items present, return true" $ do
       isEmpty empty `shouldBe` True
 
@@ -18,7 +18,7 @@ main = hspec $ do
       isEmpty stack `shouldBe` False
 
 
-  describe "peek" $ do
+  describe "\n\npeek" $ do
     it "where no item present, shows nothing" $ do
       peek empty `shouldBe` ( Nothing :: Maybe String )
       peek empty `shouldBe` ( Nothing :: Maybe Char )
@@ -49,7 +49,7 @@ main = hspec $ do
       peek floats `shouldBe` ( Just 0.11 :: Maybe Float )
 
 
-  describe "pop" $ do
+  describe "\n\npop" $ do
     it "where no items present, returns nothing" $ do
       pop ( empty :: Stack String ) `shouldBe` ( Nothing, empty :: Stack a )
       pop ( empty :: Stack Char ) `shouldBe` ( Nothing, empty :: Stack a )
@@ -72,7 +72,7 @@ main = hspec $ do
       size smallerStack `shouldBe` ( 2 :: Int )
 
 
-  describe "push" $ do
+  describe "\n\npush" $ do
     it "where no items present, should add one item" $ do
       let stack = push "word" empty
 
@@ -99,7 +99,7 @@ main = hspec $ do
       peek third `shouldBe` ( Just "third" :: Maybe String )
 
 
-  describe "size" $ do
+  describe "\n\nsize" $ do
     it "where no items, returns zero" $ do
       size empty `shouldBe` ( 0 :: Int )
 
