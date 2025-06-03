@@ -66,4 +66,12 @@ class QueueTest {
         assertThat( queue.peek() ).isEqualTo( 0 );
         assertThat( queue.isEmpty() ).isFalse();
     }
+
+    @Test
+    public void pushTwice(){
+        queue.push( 10 ).push( 20 );
+        assertThat( queue.size() ).isEqualTo( 2 );
+        assertThat( queue.peek() ).isEqualTo( 10 );
+        assertThat( queue.isEmpty() ).isFalse();
+    }
 }
