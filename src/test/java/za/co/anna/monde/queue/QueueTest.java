@@ -21,7 +21,7 @@ class QueueTest {
 
     @Test
     public void aQueueWithSingleElementIsSizeOne(){
-        queue = new Queue( 1 ).push( 22 );
+        queue = new Queue( 1 ).enqueue( 22 );
         assertThat( queue.size() ).isEqualTo( 1 );
     }
 
@@ -38,7 +38,7 @@ class QueueTest {
 
     @Test
     public void aPopulatedQueueIsNotEmpty(){
-        assertThat( new Queue().push( 0 ).isEmpty() ).isFalse();
+        assertThat( new Queue().enqueue( 0 ).isEmpty() ).isFalse();
         assertThat( new Queue( new int[]{ 0 }).isEmpty() ).isFalse();
     }
 
@@ -51,41 +51,43 @@ class QueueTest {
 
     @Test
     public void peekingWhereThereIsOneElementShowsSaidElement(){
-        assertThat( queue.push( 77 ).peek() ).isEqualTo( 77 );
+        assertThat( queue.enqueue( 77 ).peek() ).isEqualTo( 77 );
     }
 
     @Test
     public void peekingMultipleElementsShowsFirstElement(){
-        assertThat( queue.push( 0 ).push( 1 ).push( 2 ).peek() ).isEqualTo( 0 );
+        assertThat(
+            queue.enqueue( 0 ).enqueue( 1 ).enqueue( 2 ).peek()
+        ).isEqualTo( 0 );
     }
 
     @Test
-    public void pushOnce(){
-        queue.push( 0 );
+    public void enqueueOnce(){
+        queue.enqueue( 0 );
         assertThat( queue.size() ).isEqualTo( 1 );
         assertThat( queue.peek() ).isEqualTo( 0 );
         assertThat( queue.isEmpty() ).isFalse();
     }
 
     @Test
-    public void pushTwice(){
-        queue.push( 10 ).push( 20 );
+    public void enqueueTwice(){
+        queue.enqueue( 10 ).enqueue( 20 );
         assertThat( queue.size() ).isEqualTo( 2 );
         assertThat( queue.peek() ).isEqualTo( 10 );
         assertThat( queue.isEmpty() ).isFalse();
     }
 
     @Test
-    public void pushMultipleTimes(){
-        queue.push( -1 ).push( -2 ).push( -3 ).push( -4 );
+    public void enqueueMultipleTimes(){
+        queue.enqueue( -1 ).enqueue( -2 ).enqueue( -3 ).enqueue( -4 );
         assertThat( queue.size() ).isEqualTo( 4 );
         assertThat( queue.peek() ).isEqualTo( -1 );
         assertThat( queue.isEmpty() ).isFalse();
     }
 
     @Test
-    public void pushMoreThanInitialSizeOfQueue(){
-        queue = new Queue( new int[]{ 0, 1, 2 }).push( 3 );
+    public void enqueueMoreThanInitialSizeOfQueue(){
+        queue = new Queue( new int[]{ 0, 1, 2 }).enqueue( 3 );
         assertThat( queue.size() ).isEqualTo( 4 );
         assertThat( queue.peek() ).isEqualTo( 0 );
         assertThat( queue.isEmpty() ).isFalse();

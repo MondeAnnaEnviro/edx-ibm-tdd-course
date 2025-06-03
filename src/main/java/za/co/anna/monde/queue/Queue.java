@@ -38,7 +38,7 @@ class Queue {
         return integers[ 0 ];
     }
 
-    public Queue push( int integer ){
+    public Queue enqueue( int integer ){
         if ( index + 1 == queueSize )
             integers = increaseIntegers( integers );
         integers[ ++index ] = integer;
