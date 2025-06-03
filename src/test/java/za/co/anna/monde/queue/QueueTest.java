@@ -17,4 +17,10 @@ class QueueTest {
     public void anEmptyQueueIsSizeZero(){
         assertThat( queue.size() ).isEqualTo( 0 );
     }
+
+    @Test
+    public void aQueueWithSingleElementIsSizeOne(){
+        Queue queue = new Queue( 1 );
+        assertThat( queue.size() ).isEqualTo( 1 );
+    }
 }
