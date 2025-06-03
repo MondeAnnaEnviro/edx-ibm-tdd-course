@@ -48,4 +48,9 @@ class QueueTest {
             () -> queue.peek()
         );
     }
+
+    @Test
+    public void peekingWhereThereIsOneElementShowsSaidElement(){
+        assertThat( queue.push( 77 ).peek() ).isEqualTo( 77 );
+    }
 }

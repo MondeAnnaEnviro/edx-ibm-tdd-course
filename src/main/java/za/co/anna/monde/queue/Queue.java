@@ -31,7 +31,10 @@ class Queue {
     }
 
     public int peek(){
-        throw new IllegalArgumentException();
+        if ( index < 0 )
+            throw new IllegalArgumentException();
+
+        return integers[ index ];
     }
 
     public Queue push( int integer ){
