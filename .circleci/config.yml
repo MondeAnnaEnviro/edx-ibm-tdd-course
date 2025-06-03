@@ -1,0 +1,20 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: maven:3.9.9-eclipse-temurin-21-noble
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: mvn test
+
+workflows:
+  version: 2
+  java_test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: /.*java.*/
