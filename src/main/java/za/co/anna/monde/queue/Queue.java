@@ -4,7 +4,6 @@ class Queue {
 
     private final int BASE_SIZE = 10;
     private int[] integers;
-    private int queueSize;
     private int index;
 
     public Queue(){
@@ -13,13 +12,11 @@ class Queue {
 
     public Queue( int initialSize ){
         integers = new int[initialSize];
-        queueSize = initialSize;
         index = -1;
     }
 
     public Queue( int[] integers ){
         this.integers = integers;
-        queueSize = integers.length;
         index = integers.length - 1;
     }
 
@@ -40,7 +37,7 @@ class Queue {
     }
 
     public Queue enqueue( int integer ){
-        if ( index + 1 == queueSize )
+        if ( index + 1 == integers.length )
             integers = increaseIntegers( integers );
         integers[ ++index ] = integer;
         return this;
