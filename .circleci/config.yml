@@ -15,6 +15,9 @@ jobs:
 
 workflows:
   version: 2
-  test-workflow:
+  haskell_test:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only: /.*haskell.*/
