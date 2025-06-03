@@ -109,4 +109,13 @@ class QueueTest {
         assertThat( queue.size() ).isEqualTo( 0 );
         assertThat( queue.isEmpty() ).isTrue();
     }
+
+    @Test
+    public void dequeueOfMultiElementQueueReturnsFirstElement(){
+        int dequeued = queue.enqueue( 0 ).enqueue( 1 ).dequeue();
+
+        assertThat( dequeued ).isEqualTo( 0 );
+        assertThat( queue.size() ).isEqualTo( 1 );
+        assertThat( queue.isEmpty() ).isFalse();
+    }
 }
