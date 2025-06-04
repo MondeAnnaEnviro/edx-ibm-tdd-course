@@ -18,3 +18,8 @@ main = hspec $ do
 
     it "a queue with n elements is a size of n" $ do
       size ( Queue [ 0, 1, 2 ]) `shouldBe` ( 3 :: Int )
+
+
+  describe "\n\nisEmpty" $ do
+    it "a queue with no elements is empty" $ do
+      isEmpty empty `shouldBe` True
