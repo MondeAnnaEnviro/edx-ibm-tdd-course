@@ -30,6 +30,14 @@ main = hspec $ do
       peek queue `shouldBe` ( Just 3 :: Maybe Int )
 
 
+  describe "\n\npop" $ do
+    it "an empty queue returns nothing and an empty queue" $ do
+      let ( nothing, poppedQueue ) = pop empty
+
+      nothing `shouldBe` ( Nothing :: Maybe Double )
+      isEmpty poppedQueue `shouldBe` True
+
+
   describe "\n\npush" $ do
     it "an empty queue produces a queue of one entry after push" $ do
       let queue = push "init" empty
