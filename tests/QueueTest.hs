@@ -26,3 +26,7 @@ main = hspec $ do
 
     it "a queue with elements is not empty" $ do
       isEmpty ( Queue [ 3 ]) `shouldBe` False
+
+  describe "\n\npeek" $ do
+    it "an empty queue shows nothing" $ do
+      peek empty `shouldBe` ( Nothing :: Maybe Char )

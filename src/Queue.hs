@@ -12,6 +12,10 @@ isEmpty :: Queue a -> Bool
 isEmpty ( Queue x ) = size ( Queue x ) == 0
 
 
+peek :: Queue a -> Maybe a
+peek ( Queue [] ) = Nothing
+
+
 size :: Queue a -> Int
 size ( Queue [] ) = 0
 size ( Queue ( _:xs )) = 1 + size ( Queue xs )
