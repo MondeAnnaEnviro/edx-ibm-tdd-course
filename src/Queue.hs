@@ -16,6 +16,12 @@ isEmpty ( Queue x ) = size ( Queue x ) == 0
  - NOTE: using builtins, the recursive
  - call could have been replaced with
  - `otherwise = head $ reverse xs`
+ -
+ - using indexing: cleaner would be
+ - make a func to get index
+ - `otherwise = Just $ xs !! (( size ( Queue xs )) - 1 )`
+ - Ps: `size` is expensive as the current
+ - solution and uglier
 -}
 peek :: Queue a -> Maybe a
 peek ( Queue [] ) = Nothing
