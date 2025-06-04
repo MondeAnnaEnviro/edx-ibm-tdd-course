@@ -21,6 +21,7 @@ peek ( Queue ( x:xs ))
 
 pop :: Queue a -> ( Maybe a, Queue a )
 pop ( Queue [] ) = ( Nothing, Queue [] )
+pop ( Queue [ x ]) = ( Just x, Queue [] )
 
 
 push :: a -> Queue a -> Queue a

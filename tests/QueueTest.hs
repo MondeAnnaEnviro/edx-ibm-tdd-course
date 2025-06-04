@@ -37,6 +37,13 @@ main = hspec $ do
       nothing `shouldBe` ( Nothing :: Maybe Double )
       isEmpty poppedQueue `shouldBe` True
 
+    it "a queue of size one returns the element and ea empty queue" $ do
+      let queue = push 77 empty
+      let ( element, poppedQueue ) = pop queue
+
+      element `shouldBe` ( Just 77 :: Maybe Int )
+      isEmpty poppedQueue `shouldBe` True
+
 
   describe "\n\npush" $ do
     it "an empty queue produces a queue of one entry after push" $ do
