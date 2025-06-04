@@ -19,6 +19,10 @@ peek ( Queue ( x:xs ))
  | otherwise = peek ( Queue xs )
 
 
+push :: a -> Queue a -> Queue a
+push x ( Queue [] ) = Queue [ x ]
+
+
 size :: Queue a -> Int
 size ( Queue [] ) = 0
 size ( Queue ( _:xs )) = 1 + size ( Queue xs )

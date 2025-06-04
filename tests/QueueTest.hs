@@ -36,3 +36,12 @@ main = hspec $ do
 
     it "a queue with multiple elements shows right most element" $ do
       peek ( Queue [ 0, 1, 2, 3, 4, 5 ]) `shouldBe` ( Just 5 :: Maybe Int )
+
+
+  describe "\n\npush" $ do
+    it "an empty queue produces a queue of one entry after push" $ do
+      let queue = push "init" empty
+
+      isEmpty queue `shouldBe` False
+      size queue `shouldBe` ( 1 :: Int )
+      peek queue `shouldBe` ( Just "init" :: Maybe String )
