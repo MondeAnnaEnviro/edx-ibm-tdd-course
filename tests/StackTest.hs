@@ -14,7 +14,7 @@ main = hspec $ do
       isEmpty empty `shouldBe` True
 
     it "where items present, return false" $ do
-      let stack = Stack [ "value" ]
+      let stack = push "value" empty
       isEmpty stack `shouldBe` False
 
 
@@ -25,27 +25,28 @@ main = hspec $ do
       peek empty `shouldBe` ( Nothing :: Maybe Int )
 
     it "where one item present, said item shows" $ do
-      let stack = Stack [ 44 ]
+      let stack = push 44 empty
       peek stack `shouldBe` ( Just 44 :: Maybe Int )
 
     it "where many items present, left-most item shows" $ do
       {- recall: adding uses `cons`, thus prepends to list
        - consequently, the left most item is the last addition
        -}
-      let stack = Stack [ 653, 1, 66, 903, 43 ]
+      let stack = push 653 $ push 903 $ push 66 $ push 43 empty
       peek stack `shouldBe` ( Just 653 :: Maybe Int )
 
     it "works with all types, while being type specific" $ do
-      let chars = Stack [ 'c', 'h', 'a', 'r', 's' ]
-      peek chars `shouldBe` ( Just 'c' :: Maybe Char )
+      let chars = push 'r' $ push 'a' $ push 'h' $ push 'c' empty --Stack [ 'c', 'h', 'a', 'r', 's' ]
+      print chars
+      peek chars `shouldBe` ( Just 'r' :: Maybe Char )
 
-      let strs = Stack [ "star" ]
+      let strs = push "star" empty
       peek strs `shouldBe` ( Just "star" :: Maybe String )
 
-      let doubles = Stack [ 44.44 ]
+      let doubles = push 44.44 empty
       peek doubles `shouldBe` ( Just 44.44 :: Maybe Double )
 
-      let floats = Stack [ 0.11 ]
+      let floats = push 0.11 empty
       peek floats `shouldBe` ( Just 0.11 :: Maybe Float )
 
 
@@ -56,7 +57,7 @@ main = hspec $ do
       pop ( empty :: Stack Int ) `shouldBe` ( Nothing, empty :: Stack a )
 
     it "where one item present, returns item and smaller stack" $ do
-      let stack = Stack [ "single" ]
+      let stack = push "single" empty
       let ( item, smallerStack ) = pop stack
 
       item `shouldBe` ( Just "single" :: Maybe String )
@@ -64,7 +65,7 @@ main = hspec $ do
       size smallerStack `shouldBe` ( 0 :: Int )
 
     it "where many items present, returns left-most item" $ do
-      let stack = Stack [ "left", "middle", "right" ]
+      let stack = push "left" $ push "middle" $ push "right" empty
       let ( item, smallerStack ) = pop stack
 
       item `shouldBe` ( Just "left" :: Maybe String )
@@ -104,5 +105,5 @@ main = hspec $ do
       size empty `shouldBe` ( 0 :: Int )
 
     it "where items present, returns number of items present" $ do
-      let stack = Stack [ 5, 5, 5, 5 ] :: Stack Int
-      size stack `shouldBe` ( 4 :: Int )
+      let stack = push 5 $ push 5 $ push 5 $ push 5 empty
+      size ( stack :: Stack Int ) `shouldBe` ( 4 :: Int )
