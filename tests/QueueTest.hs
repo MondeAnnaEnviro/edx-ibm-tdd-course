@@ -30,3 +30,6 @@ main = hspec $ do
   describe "\n\npeek" $ do
     it "an empty queue shows nothing" $ do
       peek empty `shouldBe` ( Nothing :: Maybe Char )
+
+    it "a queue with one element shows said elelment" $ do
+      peek ( Queue [ "1" ])  `shouldBe` ( Just "1" :: Maybe String )
