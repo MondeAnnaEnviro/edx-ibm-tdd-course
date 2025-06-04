@@ -15,3 +15,4 @@ size ( Queue ( _:xs )) = 1 + size ( Queue xs )
 
 isEmpty :: Queue a -> Bool
 isEmpty ( Queue [] ) = True
+isEmpty ( Queue _ ) = False

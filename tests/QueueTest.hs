@@ -23,3 +23,6 @@ main = hspec $ do
   describe "\n\nisEmpty" $ do
     it "a queue with no elements is empty" $ do
       isEmpty empty `shouldBe` True
+
+    it "a queue with elements is not empty" $ do
+      isEmpty ( Queue [ 3 ]) `shouldBe` False
