@@ -10,5 +10,4 @@ empty = Queue []
 
 size :: Queue a -> Int
 size ( Queue [] ) = 0
-size ( Queue [ _ ]) = 1
-size ( Queue ( x:xs )) = 1 + size ( Queue xs )
+size ( Queue ( _:xs )) = 1 + size ( Queue xs )
