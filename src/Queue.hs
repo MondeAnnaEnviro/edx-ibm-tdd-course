@@ -1,4 +1,4 @@
-module Queue where
+module Queue ( Queue, empty, isEmpty, peek, push, size ) where
 
 
 newtype Queue a = Queue [ a ] deriving ( Show, Eq )
