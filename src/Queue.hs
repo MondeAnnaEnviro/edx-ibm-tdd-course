@@ -21,6 +21,7 @@ peek ( Queue ( x:xs ))
 
 push :: a -> Queue a -> Queue a
 push x ( Queue [] ) = Queue [ x ]
+push x ( Queue xs ) = Queue ( x:xs)
 
 
 size :: Queue a -> Int

@@ -45,3 +45,10 @@ main = hspec $ do
       isEmpty queue `shouldBe` False
       size queue `shouldBe` ( 1 :: Int )
       peek queue `shouldBe` ( Just "init" :: Maybe String )
+
+    it "n pushes renders queue with n properties" $ do
+      let queue = push "last" $ push "second" $ push "first" empty
+
+      isEmpty queue `shouldBe` False
+      size queue `shouldBe` ( 3 :: Int )
+      peek queue `shouldBe` ( Just "first" :: Maybe String )
