@@ -9,6 +9,6 @@ main :: IO ()
 main = hspec $ do
 
 
-  describe "\n\nlinkage" $ do
-    it "linked to queues src script" $ do
-      linkage `shouldBe` True
+  describe "\n\nsize" $ do
+    it "the size of an empty queue is zero" $ do
+      size empty `shouldBe` ( 0 :: Int )
