@@ -8,11 +8,10 @@ empty :: Queue a
 empty = Queue []
 
 
+isEmpty :: Queue a -> Bool
+isEmpty ( Queue x ) = size ( Queue x ) == 0
+
+
 size :: Queue a -> Int
 size ( Queue [] ) = 0
 size ( Queue ( _:xs )) = 1 + size ( Queue xs )
-
-
-isEmpty :: Queue a -> Bool
-isEmpty ( Queue [] ) = True
-isEmpty ( Queue _ ) = False
