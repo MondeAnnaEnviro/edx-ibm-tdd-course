@@ -1,7 +1,7 @@
 module Stack ( Stack, empty, isEmpty, peek, pop, push, size ) where
 
 
-data Stack a = Stack [ a ] deriving ( Show, Eq )
+newtype Stack a = Stack [ a ] deriving ( Show, Eq )
 
 
 empty :: Stack a
