@@ -10,3 +10,4 @@ empty = Queue []
 
 size :: Queue a -> Int
 size ( Queue [] ) = 0
+size ( Queue [ _ ]) = 1
