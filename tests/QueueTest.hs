@@ -44,6 +44,14 @@ main = hspec $ do
       element `shouldBe` ( Just 77 :: Maybe Int )
       isEmpty poppedQueue `shouldBe` True
 
+    it "an n sized queue returns the first element and an n-1 sized queue" $ do
+      let queue = push 7 $ push 14 $ push 21 empty
+      let ( element, poppedQueue ) = pop queue
+
+      element `shouldBe` ( Just 21 :: Maybe Int )
+      peek poppedQueue `shouldBe` ( Just 14 :: Maybe Int )
+      size poppedQueue `shouldBe` ( 2 :: Int )
+
 
   describe "\n\npush" $ do
     it "an empty queue produces a queue of one entry after push" $ do
