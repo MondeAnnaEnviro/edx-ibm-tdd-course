@@ -33,3 +33,6 @@ main = hspec $ do
 
     it "a queue with one element shows said elelment" $ do
       peek ( Queue [ "1" ])  `shouldBe` ( Just "1" :: Maybe String )
+
+    it "a queue with multiple elements shows right most element" $ do
+      peek ( Queue [ 0, 1, 2, 3, 4, 5 ]) `shouldBe` ( Just 5 :: Maybe Int )
