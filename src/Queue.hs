@@ -11,3 +11,4 @@ isEmpty ( Queue _ ) = False
 
 size :: Queue a -> Int
 size ( Queue [] ) = 0
+size ( Queue x ) = 1

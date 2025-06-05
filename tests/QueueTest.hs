@@ -20,3 +20,6 @@ main = hspec $ do
   describe "\n\nsize" $ do
     it "queue with no entries is size zero" $ do
       size ( Queue [] ) `shouldBe` ( 0 :: Int )
+
+    it "queue with one entry is size one" $ do
+      size ( Queue [ 3 ]) `shouldBe` ( 1 :: Int )
