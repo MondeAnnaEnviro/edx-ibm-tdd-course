@@ -20,6 +20,15 @@ main = hspec $ do
       entry `shouldBe` ( Just 1 :: Maybe Double )
       isEmpty dequeued `shouldBe` True
 
+    it "queue with n entries returns first entry and size n-1 queue" $ do
+      let queue = enqueue 2 $ enqueue 1 $ enqueue 0 empty
+      let ( entry, dequeued ) = dequeue queue
+
+      entry `shouldBe` ( Just 0 :: Maybe Int )
+
+      peek dequeued `shouldBe` ( Just 1 :: Maybe Int )
+      size dequeued `shouldBe` ( 2 :: Int )
+
 
   describe "\n\nenqueue" $ do
     it "properties after one enqueue" $ do
