@@ -24,8 +24,8 @@ main = hspec $ do
     it "queue with one entry returns entry" $ do
       peek ( Queue [ "show"] ) `shouldBe` ( Just "show" :: Maybe String )
 
-    it "queue with n entries returns first entry" $ do
-      peek ( Queue [ 1, 2, 3] ) `shouldBe` ( Just 1 :: Maybe Int )
+    it "queue with n entries returns right-most entry" $ do
+      peek ( Queue [ 1, 2, 3] ) `shouldBe` ( Just 3 :: Maybe Int )
 
 
   describe "\n\nenqueue" $ do
@@ -34,6 +34,13 @@ main = hspec $ do
 
       peek queue `shouldBe` ( Just "one" :: Maybe String )
       size queue `shouldBe` ( 1 :: Int )
+      isEmpty queue `shouldBe` False
+
+    it "properties after multiple enqueues" $ do
+      let queue = enqueue 'c' $ enqueue 'b' $ enqueue 'a' empty
+
+      peek queue `shouldBe` ( Just 'a' :: Maybe Char )
+      size queue `shouldBe` ( 3 :: Int )
       isEmpty queue `shouldBe` False
 
 
