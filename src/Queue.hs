@@ -1,5 +1,8 @@
 module Queue where
 
 
-linkage :: Bool
-linkage = True
+newtype Queue a = Queue [ a ] deriving ( Show, Eq )
+
+
+isEmpty :: Queue a -> Bool
+isEmpty ( Queue [] ) = True

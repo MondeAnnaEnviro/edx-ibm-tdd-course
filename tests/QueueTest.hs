@@ -9,6 +9,6 @@ main :: IO ()
 main = hspec $ do
 
 
-  describe "\n\nlinkage" $ do
-    it "linked to queues src script" $ do
-      linkage `shouldBe` True
+  describe "\n\nisEmpty" $ do
+    it "queue with no entries returns true" $ do
+      isEmpty ( Queue [] ) `shouldBe` True
