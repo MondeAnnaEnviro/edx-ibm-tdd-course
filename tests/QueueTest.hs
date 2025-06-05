@@ -15,3 +15,8 @@ main = hspec $ do
 
     it "queue entries returns false" $ do
       isEmpty ( Queue [ 1 ] ) `shouldBe` False
+
+
+  describe "\n\nsize" $ do
+    it "queue with no entries is size zero" $ do
+      size ( Queue [] ) `shouldBe` ( 0 :: Int )
