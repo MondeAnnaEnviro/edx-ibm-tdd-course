@@ -1,9 +1,11 @@
 # dir
 **/*__pycache__
 **.egg-info/
+coverage_html/
 dist-*
 target
 
 # files
 *.o
 *.hi
+.coverage
