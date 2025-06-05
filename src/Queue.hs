@@ -11,7 +11,7 @@ isEmpty ( Queue _ ) = False
 
 peek :: Queue a -> Maybe a
 peek ( Queue [] ) = Nothing
-peek ( Queue [ x ]) = Just x
+peek ( Queue ( x:xs )) = Just x
 
 
 size :: Queue a -> Int

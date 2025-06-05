@@ -24,6 +24,9 @@ main = hspec $ do
     it "queue with one entry returns entry" $ do
       peek ( Queue [ "show"] ) `shouldBe` ( Just "show" :: Maybe String )
 
+    it "queue with n entries returns first entry" $ do
+      peek ( Queue [ 1, 2, 3] ) `shouldBe` ( Just 1 :: Maybe Int )
+
 
   describe "\n\nsize" $ do
     it "queue with no entries is size zero" $ do
