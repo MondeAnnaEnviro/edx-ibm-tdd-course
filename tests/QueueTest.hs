@@ -28,6 +28,15 @@ main = hspec $ do
       peek ( Queue [ 1, 2, 3] ) `shouldBe` ( Just 1 :: Maybe Int )
 
 
+  describe "\n\nenqueue" $ do
+    it "properties after one enqueue" $ do
+      let queue = enqueue "one" empty
+
+      peek queue `shouldBe` ( Just "one" :: Maybe String )
+      size queue `shouldBe` ( 1 :: Int )
+      isEmpty queue `shouldBe` False
+
+
   describe "\n\nsize" $ do
     it "queue with no entries is size zero" $ do
       size ( Queue [] ) `shouldBe` ( 0 :: Int )

@@ -4,6 +4,10 @@ module Queue where
 newtype Queue a = Queue [ a ] deriving ( Show, Eq )
 
 
+empty :: Queue a
+empty = Queue []
+
+
 isEmpty :: Queue a -> Bool
 isEmpty ( Queue [] ) = True
 isEmpty ( Queue _ ) = False
@@ -13,6 +17,9 @@ peek :: Queue a -> Maybe a
 peek ( Queue [] ) = Nothing
 peek ( Queue ( x:xs )) = Just x
 
+
+enqueue :: a -> Queue a -> Queue a
+enqueue x ( Queue [] ) = Queue [ x ]
 
 size :: Queue a -> Int
 size ( Queue [] ) = 0
