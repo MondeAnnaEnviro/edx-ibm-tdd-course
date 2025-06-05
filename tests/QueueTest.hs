@@ -9,25 +9,6 @@ main :: IO ()
 main = hspec $ do
 
 
-  describe "\n\nisEmpty" $ do
-    it "queue with no entries returns true" $ do
-      isEmpty ( Queue [] ) `shouldBe` True
-
-    it "queue entries returns false" $ do
-      isEmpty ( Queue [ 1 ] ) `shouldBe` False
-
-
-  describe "\n\npeek" $ do
-    it "queue with no entries returns nothing" $ do
-      peek ( Queue [] ) `shouldBe` ( Nothing :: Maybe Char )
-
-    it "queue with one entry returns entry" $ do
-      peek ( Queue [ "show"] ) `shouldBe` ( Just "show" :: Maybe String )
-
-    it "queue with n entries returns right-most entry" $ do
-      peek ( Queue [ 1, 2, 3] ) `shouldBe` ( Just 3 :: Maybe Int )
-
-
   describe "\n\nenqueue" $ do
     it "properties after one enqueue" $ do
       let queue = enqueue "one" empty
@@ -44,12 +25,36 @@ main = hspec $ do
       isEmpty queue `shouldBe` False
 
 
+  describe "\n\nisEmpty" $ do
+    it "queue with no entries returns true" $ do
+      isEmpty empty `shouldBe` True
+
+    it "queue entries returns false" $ do
+      let queue = enqueue 1 empty
+      isEmpty queue `shouldBe` False
+
+
+  describe "\n\npeek" $ do
+    it "queue with no entries returns nothing" $ do
+      peek empty `shouldBe` ( Nothing :: Maybe Char )
+
+    it "queue with one entry returns entry" $ do
+      let queue = enqueue "show" empty
+      peek queue `shouldBe` ( Just "show" :: Maybe String )
+
+    it "queue with n entries returns first entry" $ do
+      let queue = enqueue 3 $ enqueue 2 $ enqueue 1 empty
+      peek queue `shouldBe` ( Just 1 :: Maybe Int )
+
+
   describe "\n\nsize" $ do
     it "queue with no entries is size zero" $ do
-      size ( Queue [] ) `shouldBe` ( 0 :: Int )
+      size empty `shouldBe` ( 0 :: Int )
 
     it "queue with one entry is size one" $ do
-      size ( Queue [ 3 ]) `shouldBe` ( 1 :: Int )
+      let queue = enqueue 3 empty
+      size queue `shouldBe` ( 1 :: Int )
 
     it "queue with n entrie is size n" $ do
-      size ( Queue [ 0, 1, 2, 3 ]) `shouldBe` ( 4 :: Int )
+      let queue = enqueue 2 $ enqueue 1 $ enqueue 0 empty
+      size queue `shouldBe` ( 3 :: Int )
