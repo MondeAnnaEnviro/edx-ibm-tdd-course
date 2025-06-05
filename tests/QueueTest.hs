@@ -15,6 +15,11 @@ main = hspec $ do
       nothing `shouldBe` ( Nothing :: Maybe Double )
       isEmpty dequeued `shouldBe` True
 
+    it "queue with one entries returns said entry and empty queue" $ do
+      let ( entry, dequeued ) = dequeue $ enqueue 1 empty
+      entry `shouldBe` ( Just 1 :: Maybe Double )
+      isEmpty dequeued `shouldBe` True
+
 
   describe "\n\nenqueue" $ do
     it "properties after one enqueue" $ do

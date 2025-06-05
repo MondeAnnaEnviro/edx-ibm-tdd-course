@@ -22,6 +22,7 @@ peek ( Queue ( x:xs ))
 
 dequeue :: Queue a -> ( Maybe a, Queue a )
 dequeue ( Queue [] ) = ( Nothing, Queue [] )
+dequeue ( Queue [ x ]) = ( Just x, Queue [] )
 
 
 enqueue :: a -> Queue a -> Queue a
