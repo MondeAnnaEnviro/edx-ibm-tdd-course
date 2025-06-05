@@ -20,6 +20,10 @@ peek ( Queue ( x:xs ))
  | otherwise = peek ( Queue xs )
 
 
+dequeue :: Queue a -> ( Maybe a, Queue a )
+dequeue ( Queue [] ) = ( Nothing, Queue [] )
+
+
 enqueue :: a -> Queue a -> Queue a
 enqueue x ( Queue [] ) = Queue [ x ]
 enqueue x ( Queue xs ) = Queue ( x:xs )

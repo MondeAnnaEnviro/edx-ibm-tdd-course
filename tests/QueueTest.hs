@@ -9,6 +9,13 @@ main :: IO ()
 main = hspec $ do
 
 
+  describe "\n\ndequeue" $ do
+    it "queue with no entries returns nothing and empty queue" $ do
+      let ( nothing, dequeued ) = dequeue empty
+      nothing `shouldBe` ( Nothing :: Maybe Double )
+      isEmpty dequeued `shouldBe` True
+
+
   describe "\n\nenqueue" $ do
     it "properties after one enqueue" $ do
       let queue = enqueue "one" empty
