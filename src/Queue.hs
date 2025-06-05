@@ -1,47 +1,5 @@
-module Queue ( Queue, empty, isEmpty, peek, pop, push, size ) where
+module Queue where
 
 
-newtype Queue a = Queue [ a ] deriving ( Show, Eq )
-
-
-empty :: Queue a
-empty = Queue []
-
-
-isEmpty :: Queue a -> Bool
-isEmpty ( Queue x ) = size ( Queue x ) == 0
-
-
-{-
- - NOTE: using builtins, the recursive
- - call could have been replaced with
- - `otherwise = head $ reverse xs`
- -
- - using indexing: cleaner would be
- - make a func to get index
- - `otherwise = Just $ xs !! (( size ( Queue xs )) - 1 )`
- - Ps: `size` is expensive as the current
- - solution and uglier
--}
-peek :: Queue a -> Maybe a
-peek ( Queue [] ) = Nothing
-peek ( Queue ( x:xs ))
- | size ( Queue xs ) == 0 = Just x
- | otherwise = peek ( Queue xs )
-
-
-pop :: Queue a -> ( Maybe a, Queue a )
-pop ( Queue [] ) = ( Nothing, Queue [] )
-pop ( Queue ( x:xs ))
- | size ( Queue xs ) == 0 = ( Just x, Queue [] )
- | otherwise = ( Just $ head $ reverse xs, Queue $ init $ x:xs )
-
-
-push :: a -> Queue a -> Queue a
-push x ( Queue [] ) = Queue [ x ]
-push x ( Queue xs ) = Queue ( x:xs)
-
-
-size :: Queue a -> Int
-size ( Queue [] ) = 0
-size ( Queue ( _:xs )) = 1 + size ( Queue xs )
+linkage :: Bool
+linkage = True
