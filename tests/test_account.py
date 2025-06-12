@@ -1,33 +1,27 @@
 """
 Test Cases TestAccountModel
 """
+
+from unittest.mock import patch
+from pathlib import Path
+import pytest
 import json
-from unittest import TestCase
-from models import db
+
+
 from models.account import Account
+from models import app
 
 
-ACCOUNT_DATA = {}
+@pytest.fixture( scope="session" )
+def app_context():
+    with app.app_context():
+        yield
 
 
-class TestAccountModel(TestCase):
-    """Test Account Model"""
+def test_querying_all_when_session_is_empty_returns_empty_list( app_context ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.all.return_value = []
+        result = Account.all()
 
-    @classmethod
-    def setUpClass(cls):
-        """ Connect and load data needed by tests """
-
-    @classmethod
-    def tearDownClass(cls):
-        """Disconnect from database"""
-
-    def setUp(self):
-        """Truncate the tables"""
-
-    def tearDown(self):
-        """Remove the session"""
-
-    ######################################################################
-    #  T E S T   C A S E S
-    ######################################################################
-
+        mock_query.all.assert_called_once()
+        assert result == []
