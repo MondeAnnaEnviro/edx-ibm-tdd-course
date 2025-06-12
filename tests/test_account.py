@@ -44,3 +44,12 @@ def test_querying_all_when_session_has_data_returns_all_data( app_context, accou
 
         mock_query.all.assert_called_once()
         assert result == account_data
+
+
+def test_call_find_using_invalid_id( app_context ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.get.return_value = None
+        result = Account.find( 111 )
+
+        mock_query.get.assert_called_once_with( 111 )
+        assert result is None
