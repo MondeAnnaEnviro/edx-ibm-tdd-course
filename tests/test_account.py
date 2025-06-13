@@ -11,7 +11,7 @@ import pytest
 import json
 
 
-from models.account import Account
+from models.account import Account, DataValidationError
 from models import app
 
 
@@ -174,3 +174,9 @@ def test_save_account_to_database( mock_empty_session, accounts ):
             assert len( result ) == size
             mock_db.session.add.assert_called_with( account )
             mock_db.session.commit.assert_called()
+
+
+def test_updating_account_without_id( app_context ):
+    match = "Update called with empty ID field"
+    with pytest.raises( DataValidationError, match=match ):
+        Account().update()
