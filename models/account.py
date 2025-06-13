@@ -76,7 +76,8 @@ class Account( db.Model ):
 
         if self.find( self._id ) is None:
             raise DataValidationError( f"Delete called: {self} not found" )
-        db.session.delete( self )
+
+        db.session.query( Account ).filter( Account._id == self._id ).delete()  # delete( self )
         db.session.commit()
 
     def __eq__( self, other ):

@@ -241,3 +241,23 @@ def test_calling_delete_when_account_not_in_db( mock_empty_session, accounts ):
         with pytest.raises( DataValidationError, match=match ):
             mock_query.session = mock_empty_session
             becky_franco.delete()
+
+
+def test_calling_delete_when_account_in_db( mock_empty_session, accounts ):
+    mary_barker = accounts[ 3 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            mary_barker.save()
+            before = mock_db.session.query( Account ).all()
+
+            mary_barker.delete()
+            after = mock_db.session.query( Account ).all()
+
+            assert mary_barker in before
+            assert mary_barker not in after
+
+            mock_db.session.delete.assert_called_once()
+            mock_db.session.commit.assert_called()
