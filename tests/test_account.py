@@ -34,7 +34,7 @@ def account_data():
 @pytest.fixture( scope="session" )
 def accounts( account_data ):
     return [
-        Account( id=_id, **account, date_joined=datetime.datetime.now() )
+        Account( _id=_id, **account, date_joined=datetime.datetime.now() )
         for _id, account
         in enumerate( account_data, start=1 )
     ]
@@ -43,12 +43,12 @@ def accounts( account_data ):
 @pytest.fixture( scope="session" )
 def mock_session( app_context, accounts ):
     query_all = [(
-        [ mock.call.query( Account ), mock.call.filter( Account.id > 0 )],
+        [ mock.call.query( Account ), mock.call.filter( Account._id > 0 )],
         accounts
     )]
 
     query_individual_accounts = [
-        ([ mock.call.query( Account ), mock.call.filter( Account.id == _id )], [ account ])
+        ([ mock.call.query( Account ), mock.call.filter( Account._id == _id )], [ account ])
         for _id, account
         in enumerate( accounts, start=1 )
     ]
@@ -65,7 +65,7 @@ def mock_session( app_context, accounts ):
 
 @pytest.fixture( scope="session" )
 def mock_empty_session( app_context ):
-    query = [([ mock.call.query( Account ), mock.call.filter( Account.id > 0 )], [] )]
+    query = [([ mock.call.query( Account ), mock.call.filter( Account._id > 0 )], [] )]
     _mock_session = UnifiedAlchemyMagicMock( data=query )
 
     yield _mock_session

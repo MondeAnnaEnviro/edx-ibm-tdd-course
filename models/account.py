@@ -14,7 +14,7 @@ class DataValidationError( Exception ):
 class Account( db.Model ):
     """ Class that represents an Account """
 
-    id = db.Column( db.Integer, primary_key=True )
+    _id = db.Column( db.Integer, primary_key=True )
     name = db.Column( db.String( 64 ))
     email = db.Column( db.String( 64 ))
     phone_number = db.Column( db.String( 32 ), nullable=True )
@@ -25,7 +25,7 @@ class Account( db.Model ):
     def all( cls ) -> list:
         """Returns all of the Accounts in the database"""
         logger.info("Processing all Accounts")
-        return cls.query.session.query( cls ).filter( cls.id > 0 ).all()
+        return cls.query.session.query( cls ).filter( cls._id > 0 ).all()
 
     @classmethod
     def find( cls, account_id: int ) -> int:
@@ -36,7 +36,7 @@ class Account( db.Model ):
         :rtype: Account
         """
         logger.info( "Processing lookup for id {account_id} ..." )
-        return cls.query.session.query( cls ).filter( cls.id == account_id ).first()
+        return cls.query.session.query( cls ).filter( cls._id == account_id ).first()
 
     def to_dict( self ) -> dict:
         """Serializes the class as a dictionary"""
@@ -56,7 +56,7 @@ class Account( db.Model ):
     def update(self):
         """Updates an Account in the database"""
         logger.info( f"Saving {self.name}" )
-        if not self.id:
+        if not self._id:
             raise DataValidationError( "Update called with empty ID field" )
         db.session.commit()
 
