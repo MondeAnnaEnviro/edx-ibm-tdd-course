@@ -139,3 +139,16 @@ def test_to_dict_for_unpopulated_accounts( app_context ):
         "phone_number": None, "disabled": None,
         "date_joined": None
     }
+
+
+def test_from_dict_for_unpopulated_accounts( app_context ):
+    dict_ = {
+        "_id": None, "name": None, "email": None,
+        "phone_number": None, "disabled": None,
+        "date_joined": None
+    }
+
+    from_dict = Account()
+    from_dict.from_dict( dict_ )
+
+    assert from_dict == Account()

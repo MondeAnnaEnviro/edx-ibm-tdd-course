@@ -66,6 +66,13 @@ class Account( db.Model ):
         db.session.delete( self )
         db.session.commit()
 
+    def __eq__( self, other ):
+        return self._id == other._id                    and \
+               self.name == other.name                  and \
+               self.email == other.email                and \
+               self.disabled == other.disabled          and \
+               self.date_joined == other.date_joined    and \
+               self.phone_number == other.phone_number
 
     def __repr__( self ):
         return f"<Account {self.name}>"
