@@ -37,7 +37,7 @@ class Account( db.Model ):
         :rtype: Account
         """
         logger.info( "Processing lookup for id {account_id} ..." )
-        return cls.query.get( account_id )
+        return cls.query.session.query( cls ).filter( cls.id == account_id ).first()
 
     def to_dict( self ) -> dict:
         """Serializes the class as a dictionary"""
