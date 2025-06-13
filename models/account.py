@@ -24,7 +24,6 @@ class Account( db.Model ):
     @classmethod
     def all( cls ) -> list:
         """Returns all of the Accounts in the database"""
-
         logger.info("Processing all Accounts")
         return cls.query.all()
 
