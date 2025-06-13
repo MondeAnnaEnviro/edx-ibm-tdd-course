@@ -74,26 +74,21 @@ def test_querying_all_when_session_has_data_returns_all_data( app_context, data_
         assert result == data_in_dict_format
 
 
-def test_calling_find_using_invalid_id( app_context ):
-    target = "models.account.Account.query.session.query"
-
-    with patch( target ) as mock_query:
-        mock_query.return_value.filter.return_value.first.return_value = None
+def test_calling_find_using_invalid_id( app_context, mock_session, data_in_account_format ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.session = mock_session
 
         result = Account.find( 111 )
         assert result is None
-
-        mock_query.return_value.filter.return_value.first.assert_called_once()
+        mock_query.session.query.return_value.filter.return_value.first.assert_called_once()
 
 
 def test_calling_find_using_valid_id( app_context, mock_session, data_in_account_format ):
-    target = "models.account.Account.query"
-
-    with patch( target ) as mock_query:
+    with patch( "models.account.Account.query" ) as mock_query:
         mock_query.session = mock_session
 
         for _id, account in enumerate( data_in_account_format, start=1 ):
             result = Account.find( _id )
 
             assert result == account
-            mock_session.query.return_value.filter.return_value.first.assert_called()
+            mock_query.session.query.return_value.filter.return_value.first.assert_called()
