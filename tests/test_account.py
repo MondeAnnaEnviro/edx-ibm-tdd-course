@@ -118,3 +118,17 @@ def test_calling_find_using_valid_id( mock_session, accounts ):
             mock_query.session.query.return_value   \
                 .filter.return_value                \
                 .first.assert_called()
+
+
+def test_to_dict( app_context, accounts, account_data ):
+    for account, data in zip( accounts, account_data ):
+        dict_ = account.to_dict()
+
+        """
+        - being able to pop the keys asserts their existence
+        - likewise, the keys are created when saving accounts
+        """
+        dict_.pop( "_id" )
+        dict_.pop( "date_joined" )
+
+        assert dict_ == data
