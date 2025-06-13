@@ -120,7 +120,7 @@ def test_calling_find_using_valid_id( mock_session, accounts ):
                 .first.assert_called()
 
 
-def test_to_dict( app_context, accounts, account_data ):
+def test_to_dict_for_populated_accounts( app_context, accounts, account_data ):
     for account, data in zip( accounts, account_data ):
         dict_ = account.to_dict()
 
@@ -132,3 +132,10 @@ def test_to_dict( app_context, accounts, account_data ):
         dict_.pop( "date_joined" )
 
         assert dict_ == data
+
+def test_to_dict_for_unpopulated_accounts( app_context ):
+    assert Account().to_dict() == {
+        "_id": None, "name": None, "email": None,
+        "phone_number": None, "disabled": None,
+        "date_joined": None
+    }
