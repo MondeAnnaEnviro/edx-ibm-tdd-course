@@ -42,6 +42,7 @@ def accounts( account_data ):
 
 @pytest.fixture( scope="function" )
 def mock_session( app_context, accounts ):
+    """filter needed to test invalid id's"""
     query_all = [(
         [ mock.call.query( Account ), mock.call.filter( Account._id > 0 )],
         accounts
@@ -65,6 +66,7 @@ def mock_session( app_context, accounts ):
 
 @pytest.fixture( scope="function" )
 def mock_empty_session( app_context ):
+    """filter needed to allow adding to session during tests"""
     query = [([ mock.call.query( Account ), mock.call.filter( Account._id > 0 )], [] )]
     _mock_session = UnifiedAlchemyMagicMock( data=query )
 
