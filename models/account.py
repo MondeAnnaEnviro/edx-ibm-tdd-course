@@ -25,7 +25,7 @@ class Account( db.Model ):
     def all( cls ) -> list:
         """Returns all of the Accounts in the database"""
         logger.info("Processing all Accounts")
-        return cls.query.all()
+        return cls.query.session.query( cls ).filter( cls.id > 0 ).all()
 
     @classmethod
     def find( cls, account_id: int ) -> int:

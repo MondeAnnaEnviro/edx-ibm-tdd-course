@@ -42,13 +42,20 @@ def accounts( account_data ):
 
 @pytest.fixture( scope="session" )
 def mock_session( app_context, accounts ):
-    data = [
-        ([ mock.call.query( Account ), mock.call.filter( Account.id == _id )],[ account ])
+    query_all = [(
+        [ mock.call.query( Account ), mock.call.filter( Account.id > 0 )],
+        accounts
+    )]
+
+    query_individual_accounts = [
+        ([ mock.call.query( Account ), mock.call.filter( Account.id == _id )], [ account ])
         for _id, account
         in enumerate( accounts, start=1 )
     ]
 
-    _mock_session = UnifiedAlchemyMagicMock( data=data )
+    queries = query_all + query_individual_accounts
+
+    _mock_session = UnifiedAlchemyMagicMock( data=queries )
 
     yield _mock_session
 
@@ -58,20 +65,24 @@ def mock_session( app_context, accounts ):
 
 def test_querying_all_when_session_is_empty_returns_empty_list( app_context ):
     with patch( "models.account.Account.query" ) as mock_query:
-        mock_query.all.return_value = []
+        mock_query.session.query.return_value.filter.return_value.all.return_value = []
         result = Account.all()
 
-        mock_query.all.assert_called_once()
         assert result == []
+        mock_query.session.query.return_value   \
+            .filter.return_value                \
+            .all.assert_called_once()
 
 
-def test_querying_all_when_session_has_data_returns_all_data( app_context, account_data ):
+def test_querying_all_when_session_has_data( mock_session, accounts ):
     with patch( "models.account.Account.query" ) as mock_query:
-        mock_query.all.return_value = account_data
+        mock_query.session = mock_session
         result = Account.all()
 
-        mock_query.all.assert_called_once()
-        assert result == account_data
+        assert result == accounts
+        mock_query.session.query.return_value   \
+            .filter.return_value                \
+            .all.assert_called_once()
 
 
 def test_calling_find_using_invalid_id( mock_session ):
