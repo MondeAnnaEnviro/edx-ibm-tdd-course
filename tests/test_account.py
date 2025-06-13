@@ -161,3 +161,16 @@ def test_from_dict_for_populated_accounts( app_context, accounts, account_data )
         data[ "_id" ] = account._id
 
         assert Account.from_dict( data ) == account
+
+
+def test_save_account_to_database( mock_empty_session, accounts ):
+    with patch( "models.account.db" ) as mock_db:
+        mock_db.session = mock_empty_session
+
+        for size, account in enumerate( accounts, start=1 ):
+            account.create()
+            result = mock_db.session.query( Account ).all()
+
+            assert len( result ) == size
+            mock_db.session.add.assert_called_with( account )
+            mock_db.session.commit.assert_called()
