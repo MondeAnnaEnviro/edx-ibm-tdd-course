@@ -54,12 +54,16 @@ class Account( db.Model ):
         db.session.add( self )
         db.session.commit()
 
-    def update(self):
+    def update( self ):
         """Updates an Account in the database"""
         logger.info( f"Updating {self.name}" )
         if not self._id:
             raise DataValidationError( "Update called with empty ID field" )
-        db.session.commit()
+
+        if self.find( self._id ) is None:
+            self.save()
+        else:
+            db.session.commit()
 
     def delete(self):
         """Removes an Account from the database"""

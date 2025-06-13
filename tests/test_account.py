@@ -63,7 +63,7 @@ def mock_session( app_context, accounts ):
     _mock_session.close()
 
 
-@pytest.fixture( scope="session" )
+@pytest.fixture( scope="function" )
 def mock_empty_session( app_context ):
     query = [([ mock.call.query( Account ), mock.call.filter( Account._id > 0 )], [] )]
     _mock_session = UnifiedAlchemyMagicMock( data=query )
@@ -176,7 +176,22 @@ def test_save_account_to_database( mock_empty_session, accounts ):
             mock_db.session.commit.assert_called()
 
 
-def test_updating_account_without_id( app_context ):
+def test_calling_update_when_account_is_without_id( app_context ):
     match = "Update called with empty ID field"
     with pytest.raises( DataValidationError, match=match ):
         Account().update()
+
+
+def test_update_saves_account_when_not_already_in_db( mock_empty_session, accounts ):
+    roberta_schaefer = accounts[ 0 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            roberta_schaefer.update()
+            result = mock_db.session.query( Account ).all()
+
+            assert result == [ roberta_schaefer ]
+            mock_db.session.add.assert_called_with( roberta_schaefer )
+            mock_db.session.commit.assert_called()
