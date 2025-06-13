@@ -1,4 +1,5 @@
 """Account class"""
+from typing_extensions import Self
 from sqlalchemy.sql import func
 from models import db
 import logging
@@ -38,14 +39,14 @@ class Account( db.Model ):
         logger.info( "Processing lookup for id {account_id} ..." )
         return cls.query.session.query( cls ).filter( cls._id == account_id ).first()
 
+    @classmethod
+    def from_dict( cls, data: dict ) -> Self:
+        """Sets attributes from a dictionary"""
+        return cls( **data )
+
     def to_dict( self ) -> dict:
         """Serializes the class as a dictionary"""
         return { c.name: getattr( self, c.name ) for c in self.__table__.columns }
-
-    def from_dict( self, data: dict ) -> None:
-        """Sets attributes from a dictionary"""
-        for key, value in data.items():
-            setattr( self, key, value )
 
     def create( self ):
         """Creates an Account in the database"""

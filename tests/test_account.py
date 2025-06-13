@@ -122,16 +122,17 @@ def test_calling_find_using_valid_id( mock_session, accounts ):
 
 def test_to_dict_for_populated_accounts( app_context, accounts, account_data ):
     for account, data in zip( accounts, account_data ):
-        dict_ = account.to_dict()
+        to_dict = account.to_dict()
 
         """
         - being able to pop the keys asserts their existence
         - likewise, the keys are created when saving accounts
+        - thus are not present in the src data
         """
-        dict_.pop( "_id" )
-        dict_.pop( "date_joined" )
+        to_dict.pop( "_id" )
+        to_dict.pop( "date_joined" )
 
-        assert dict_ == data
+        assert to_dict == data
 
 def test_to_dict_for_unpopulated_accounts( app_context ):
     assert Account().to_dict() == {
@@ -142,13 +143,21 @@ def test_to_dict_for_unpopulated_accounts( app_context ):
 
 
 def test_from_dict_for_unpopulated_accounts( app_context ):
-    dict_ = {
+    data = {
         "_id": None, "name": None, "email": None,
         "phone_number": None, "disabled": None,
         "date_joined": None
     }
 
     from_dict = Account()
-    from_dict.from_dict( dict_ )
+    from_dict.from_dict( data )
 
     assert from_dict == Account()
+
+
+def test_from_dict_for_populated_accounts( app_context, accounts, account_data ):
+    for account, data in zip( accounts, account_data ):
+        data[ "date_joined" ] = account.date_joined
+        data[ "_id" ] = account._id
+
+        assert Account.from_dict( data ) == account
