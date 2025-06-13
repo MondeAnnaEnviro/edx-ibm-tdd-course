@@ -40,7 +40,7 @@ def accounts( account_data ):
     ]
 
 
-@pytest.fixture( scope="session" )
+@pytest.fixture( scope="function" )
 def mock_session( app_context, accounts ):
     query_all = [(
         [ mock.call.query( Account ), mock.call.filter( Account._id > 0 )],
@@ -195,3 +195,27 @@ def test_update_saves_account_when_not_already_in_db( mock_empty_session, accoun
             assert result == [ roberta_schaefer ]
             mock_db.session.add.assert_called_with( roberta_schaefer )
             mock_db.session.commit.assert_called()
+
+
+def test_update_populated_account_already_in_db( mock_session, accounts ):
+    amber_torres = accounts[ 1 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_session
+            mock_db.session = mock_session
+
+            amber_torres.name = "updated name"
+            amber_torres.email = "updated email"
+
+            amber_torres.update()
+
+            is_amber_torres = Account._id == amber_torres._id
+            result = mock_db.session        \
+                .query( Account )           \
+                .filter( is_amber_torres )  \
+                .first()
+
+            assert result.name == "updated name"
+            assert result.email == "updated email"
+
+            mock_db.session.commit.assert_called_once()
