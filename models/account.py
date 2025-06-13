@@ -51,8 +51,12 @@ class Account( db.Model ):
     def save( self ):
         """Saves Account in the database"""
         logger.info( f"Saving {self.name}" )
-        db.session.add( self )
-        db.session.commit()
+
+        try:
+            db.session.add( self )
+            db.session.commit()
+        except AttributeError:
+            raise DataValidationError( f"Save called: {self} already saved" )
 
     def update( self ):
         """Updates an Account in the database"""

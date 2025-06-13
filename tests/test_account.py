@@ -178,6 +178,19 @@ def test_save_account_to_database( mock_empty_session, accounts ):
             mock_db.session.commit.assert_called()
 
 
+def test_save_raises_exception_if_account_already_id_db( mock_session, accounts ):
+    jennifer_smith = accounts[ -1 ]
+    match = f"Save called: {jennifer_smith} already saved"
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            with pytest.raises( DataValidationError, match=match ):
+                jennifer_smith.save()
+                jennifer_smith.save()
+
+
 def test_calling_update_when_account_is_without_id( app_context ):
     match = "Update called with empty ID field"
     with pytest.raises( DataValidationError, match=match ):
