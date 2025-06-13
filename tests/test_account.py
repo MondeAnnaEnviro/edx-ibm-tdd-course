@@ -226,3 +226,9 @@ def test_update_populated_account_already_in_db( mock_session, accounts ):
             mock_db.session.delete.assert_called_once()
             mock_db.session.add.assert_called_once_with( amber_torres )
             mock_db.session.commit.assert_called_once()
+
+
+def test_calling_delete_when_account_is_without_id( app_context ):
+    match = "Delete called with empty ID field"
+    with pytest.raises( DataValidationError, match=match ):
+        Account().delete()

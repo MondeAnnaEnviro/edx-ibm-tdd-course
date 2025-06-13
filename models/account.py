@@ -71,6 +71,8 @@ class Account( db.Model ):
     def delete(self):
         """Removes an Account from the database"""
         logger.info( f"Deleting {self.name}" )
+        if not self._id:
+            raise DataValidationError( "Delete called with empty ID field" )
         db.session.delete( self )
         db.session.commit()
 
