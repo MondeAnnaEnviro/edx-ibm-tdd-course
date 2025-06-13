@@ -48,15 +48,15 @@ class Account( db.Model ):
         """Serializes the class as a dictionary"""
         return { c.name: getattr( self, c.name ) for c in self.__table__.columns }
 
-    def create( self ):
-        """Creates an Account in the database"""
-        logger.info( f"Creating {self.name}" )
+    def save( self ):
+        """Saves Account in the database"""
+        logger.info( f"Saving {self.name}" )
         db.session.add( self )
         db.session.commit()
 
     def update(self):
         """Updates an Account in the database"""
-        logger.info( f"Saving {self.name}" )
+        logger.info( f"Updating {self.name}" )
         if not self._id:
             raise DataValidationError( "Update called with empty ID field" )
         db.session.commit()

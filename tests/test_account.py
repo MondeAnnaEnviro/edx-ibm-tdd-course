@@ -168,7 +168,7 @@ def test_save_account_to_database( mock_empty_session, accounts ):
         mock_db.session = mock_empty_session
 
         for size, account in enumerate( accounts, start=1 ):
-            account.create()
+            account.save()
             result = mock_db.session.query( Account ).all()
 
             assert len( result ) == size
