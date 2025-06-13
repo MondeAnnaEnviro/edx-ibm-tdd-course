@@ -63,9 +63,20 @@ def mock_session( app_context, accounts ):
     _mock_session.close()
 
 
-def test_querying_all_when_session_is_empty_returns_empty_list( app_context ):
+@pytest.fixture( scope="session" )
+def mock_empty_session( app_context ):
+    query = [([ mock.call.query( Account ), mock.call.filter( Account.id > 0 )], [] )]
+    _mock_session = UnifiedAlchemyMagicMock( data=query )
+
+    yield _mock_session
+
+    _mock_session.rollback()
+    _mock_session.close()
+
+
+def test_querying_all_when_session_has_no_data( mock_empty_session ):
     with patch( "models.account.Account.query" ) as mock_query:
-        mock_query.session.query.return_value.filter.return_value.all.return_value = []
+        mock_query.session = mock_empty_session
         result = Account.all()
 
         assert result == []
