@@ -218,4 +218,11 @@ def test_update_populated_account_already_in_db( mock_session, accounts ):
             assert result.name == "updated name"
             assert result.email == "updated email"
 
+            found = Account.find( amber_torres._id )
+
+            assert found.name == "updated name"
+            assert found.email == "updated email"
+
+            mock_db.session.delete.assert_called_once()
+            mock_db.session.add.assert_called_once_with( amber_torres )
             mock_db.session.commit.assert_called_once()

@@ -60,10 +60,13 @@ class Account( db.Model ):
         if not self._id:
             raise DataValidationError( "Update called with empty ID field" )
 
-        if self.find( self._id ) is None:
+        saved = self.find( self._id )
+
+        if saved is None:
             self.save()
         else:
-            db.session.commit()
+            db.session.delete( saved )
+            self.save()
 
     def delete(self):
         """Removes an Account from the database"""
