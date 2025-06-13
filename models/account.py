@@ -73,6 +73,9 @@ class Account( db.Model ):
         logger.info( f"Deleting {self.name}" )
         if not self._id:
             raise DataValidationError( "Delete called with empty ID field" )
+
+        if self.find( self._id ) is None:
+            raise DataValidationError( f"Delete called: {self} not found" )
         db.session.delete( self )
         db.session.commit()
 

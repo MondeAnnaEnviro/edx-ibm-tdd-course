@@ -232,3 +232,12 @@ def test_calling_delete_when_account_is_without_id( app_context ):
     match = "Delete called with empty ID field"
     with pytest.raises( DataValidationError, match=match ):
         Account().delete()
+
+
+def test_calling_delete_when_account_not_in_db( mock_empty_session, accounts ):
+    becky_franco = accounts[ 2 ]
+    match = f"Delete called: {becky_franco} not found"
+    with patch( "models.account.Account.query" ) as mock_query:
+        with pytest.raises( DataValidationError, match=match ):
+            mock_query.session = mock_empty_session
+            becky_franco.delete()
