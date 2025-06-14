@@ -61,6 +61,7 @@ class Account( db.Model ):
     def update( self ):
         """Updates an Account in the database"""
         logger.info( f"Updating {self.name}" )
+
         if not self._id:
             raise DataValidationError( "Update called with empty ID field" )
 
@@ -75,6 +76,7 @@ class Account( db.Model ):
     def delete(self):
         """Removes an Account from the database"""
         logger.info( f"Deleting {self.name}" )
+
         if not self._id:
             raise DataValidationError( "Delete called with empty ID field" )
 
