@@ -13,7 +13,7 @@ jobs:
             pip install -r requirements.txt
       - run:
           name: Run tests
-          command: python3 -m pytest -v
+          command: python3 -m pytest -v --cov=models
 
 workflows:
   version: 2
