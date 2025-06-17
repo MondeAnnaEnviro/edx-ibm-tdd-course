@@ -92,6 +92,40 @@
             }
         ]
     },
+    "INVALID_IMDB_ID_RESPONSE": {
+        "code": 3,
+        "message": "validation error:\n - title_id: value must be a valid IMDb title ID in the format 'tt1234567'. [string.title.id]",
+        "details": [{
+            "@type": "type.googleapis.com/buf.validate.Violations",
+            "violations": [{
+                "field": {
+                    "elements": [
+                        {
+                            "field_number": 1,
+                            "field_name": "title_id",
+                            "field_type": "TYPE_STRING"
+                        }
+                    ]
+                },
+                "rule": {
+                    "elements": [
+                        {
+                            "field_number": 14,
+                            "field_name": "string",
+                            "field_type": "TYPE_MESSAGE"
+                        },
+                        {
+                            "field_number": 80000000,
+                            "field_name": "[imdbapi.is_title_id]",
+                            "field_type": "TYPE_BOOL"
+                        }
+                    ]
+                },
+                "rule_id": "string.title.id",
+                "message": "value must be a valid IMDb title ID in the format 'tt1234567'."
+            }]
+        }]
+    },
     "INVALID_RESPONSE": {
     }
 }

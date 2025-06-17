@@ -55,6 +55,17 @@ def mock_invalid_response( response_data ):
 
 
 @pytest.fixture( scope="function" )
+def mock_invalid_imdb_id_response( response_data ):
+    invalid = response_data[ "INVALID_IMDB_ID_RESPONSE" ]
+    mock_json = Mock( return_value=invalid )
+    return invalid, Mock(
+        spec=Response,
+        status_code=200,
+        json=mock_json,
+    )
+
+
+@pytest.fixture( scope="function" )
 def mock_ok_review( response_data ):
     good_review = response_data.get( "GOOD_REVIEW" )
     mock_json = Mock( return_value=good_review )
@@ -129,11 +140,17 @@ def test_ok_reviews( imdb, mock_ok_review ):
         assert imdb.movie_reviews( "ok reviews" ) == mock_review
 
 
-@pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
-def test_unfound_rating_returns_nothing( imdb, mock_404_response ):
+def test_rating_using_invalid_imdb_id( imdb, mock_invalid_imdb_id_response ):
+    mock_invalid, mock_response = mock_invalid_imdb_id_response
     target = "models.imdb.requests.get"
-    with patch( target, return_value=mock_404_response ) as mock_get:
-        assert imdb.movie_ratings( "" ) == {}
+    imdb_id = "tt-INVALID"
+
+    with patch( target, return_value=mock_response ) as mock_get:
+        results = imdb.movie_ratings( imdb_id )
+
+        assert len( results )
+        assert results == mock_invalid
+        assert "must be a valid imdb title id" in results[ "message" ].lower()
 
 
 @pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )

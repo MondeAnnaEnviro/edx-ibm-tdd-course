@@ -31,8 +31,8 @@ class IMDb:
 
     def movie_ratings(self, imdb_id: str) -> dict:
         """Get ratings for a movie"""
-        logger.info("Searching IMDb for Ratings: %s", imdb_id)
-        response = requests.get(f"https://imdb-api.com/API/Ratings/{self.apikey}/{imdb_id}")
+        logger.info("Searching IMDb for Ratings: %s", imdb_id )
+        response = requests.get( f"{self.__BASE_URL}/search/titles/imdb_id" )
         if response.status_code == 200:
             return response.json()
         return {}
