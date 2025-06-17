@@ -86,18 +86,18 @@ def test_connection_error_when_offline( imdb ):
 
 
 @pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
-def test_unfound_search_returns_nothing( imdb, mock_404_response ):
+def test_invalid_title_search( imdb, mock_valid_response ):
     target = "models.imdb.requests.get"
-    with patch( target, return_value=mock_404_response ) as mock_get:
+    with patch( target, return_value=mock_invalid_response ) as mock_get:
         assert imdb.search_titles( "" ) == {}
 
 
-@pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
-def test_valid_search_by_title( imdb, mock_valid_response ):
+def test_valid_title_search( imdb, mock_valid_response ):
     mock_valid, mock_response = mock_valid_response
     mock_titles = mock_valid[ "titles" ]
     target = "models.imdb.requests.get"
     title = "Bambi"
+
     with patch( target, return_value=mock_response ) as mock_get:
         results = imdb.search_titles( title )
 
