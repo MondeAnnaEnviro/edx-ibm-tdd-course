@@ -34,7 +34,7 @@ def mock_404_response():
 
 @pytest.fixture( scope="function" )
 def mock_ok_search( response_data ):
-    good_search = response_data.get( "GOOD_SEARCH", {} )
+    good_search = response_data.get( "GOOD_SEARCH" )
     mock_json = Mock( return_value=good_search )
     return good_search, Mock(
         spec=Response,
@@ -45,9 +45,20 @@ def mock_ok_search( response_data ):
 
 @pytest.fixture( scope="function" )
 def mock_ok_review( response_data ):
-    good_review = response_data.get( "GOOD_REVIEW", {} )
+    good_review = response_data.get( "GOOD_REVIEW" )
     mock_json = Mock( return_value=good_review )
     return good_review, Mock(
+        spec=Response,
+        status_code=200,
+        json=mock_json,
+    )
+
+
+@pytest.fixture( scope="function" )
+def mock_ok_rating( response_data ):
+    good_rating = response_data.get( "GOOD_RATING" )
+    mock_json = Mock( return_value=good_rating )
+    return good_rating, Mock(
         spec=Response,
         status_code=200,
         json=mock_json,
@@ -92,3 +103,10 @@ def test_unfound_rating_returns_nothing( imdb, mock_404_response ):
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_404_response ) as mock_get:
         assert imdb.movie_ratings( "" ) == {}
+
+
+def test_ok_ratings( imdb, mock_ok_rating ):
+    mock_rating, mock_response = mock_ok_rating
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_response ) as mock_get:
+        assert imdb.movie_ratings( "ok ratings" ) == mock_rating
