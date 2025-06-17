@@ -92,6 +92,16 @@
             }
         ]
     },
+    "VALID_IMDB_ID_RESPONSE": {
+        "id": "tt3205278",
+        "type": "tvMovie",
+        "primary_title":"Bambi Cottages",
+        "original_title": "Bambi Cottages",
+        "genres": ["Comedy"],
+        "rating": {"aggregate_rating": 8.2, "votes_count": 12},
+        "start_year": 2014,
+        "plot": "A father moves his family to new England to operate vacation getaway cabins for tourists."
+    },
     "INVALID_IMDB_ID_RESPONSE": {
         "code": 3,
         "message": "validation error:\n - title_id: value must be a valid IMDb title ID in the format 'tt1234567'. [string.title.id]",
