@@ -23,8 +23,23 @@ def imdb():
     return IMDb( "fake-key" )
 
 
+@pytest.fixture( scope="function" )
+def mock_404_response():
+    return Mock(
+        spec=Response,
+        status_code=404,
+        json={},
+    )
+
+
 def test_connection_error_when_offline( imdb ):
     match = "Max retries exceeded with url"
     with pytest.raises( ConnectionError, match=match ):
         imdb.search_titles( "" )
 
+
+
+def test_unfound_search_returns_nothing( imdb, mock_404_response ):
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_404_response ) as mock_get:
+        assert imdb.search_titles( "" ) == {}
