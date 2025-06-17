@@ -36,8 +36,7 @@ def mock_404_data():
 @pytest.fixture( scope="function" )
 def mock_ok_search( response_data ):
     good_search = response_data.get( "GOOD_SEARCH", {} )
-    mock_json = Mock()
-    mock_json.return_value = good_search
+    mock_json = Mock( return_value=good_search )
     return good_search, Mock(
         spec=Response,
         status_code=200,
@@ -46,10 +45,11 @@ def mock_ok_search( response_data ):
 
 
 def test_connection_error_when_offline( imdb ):
+    functions = [ "search_titles", "movie_reviews", "movie_ratings" ]
     match = "Max retries exceeded with url"
     with pytest.raises( ConnectionError, match=match ):
-        imdb.search_titles( "" )
-
+        for function in functions:
+            getattr( imdb, function ).__call__( "" )
 
 
 def test_unfound_search_returns_nothing( imdb, mock_404_data ):
