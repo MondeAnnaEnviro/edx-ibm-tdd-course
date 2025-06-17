@@ -86,3 +86,9 @@ def test_ok_reviews( imdb, mock_ok_review ):
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_response ) as mock_get:
         assert imdb.movie_reviews( "ok reviews" ) == mock_review
+
+
+def test_unfound_rating_returns_nothing( imdb, mock_404_response ):
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_404_response ) as mock_get:
+        assert imdb.movie_ratings( "" ) == {}
