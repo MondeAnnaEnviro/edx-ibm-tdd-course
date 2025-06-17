@@ -1,0 +1,278 @@
+"""
+Test Cases TestAccountModel
+"""
+
+from mock_alchemy.mocking import UnifiedAlchemyMagicMock
+from unittest.mock import patch
+from unittest import mock
+from pathlib import Path
+import datetime
+import pytest
+import json
+
+
+from models.account import Account, DataValidationError
+from models import app
+
+
+@pytest.fixture( scope="session" )
+def app_context():
+    with app.app_context():
+        yield
+
+
+@pytest.fixture( scope="session" )
+def account_data():
+    """Loads JSON data from a file."""
+    fixture_path = "/tests/fixtures/account_data.json"
+    file_path = str( Path.cwd() ) + fixture_path
+
+    with Path( file_path ).open() as file:
+        return json.load( file )
+
+
+@pytest.fixture( scope="session" )
+def accounts( account_data ):
+    return [
+        Account( _id=_id, **account, date_joined=datetime.datetime.now() )
+        for _id, account
+        in enumerate( account_data, start=1 )
+    ]
+
+
+@pytest.fixture( scope="function" )
+def mock_session( app_context, accounts ):
+    """filter needed to test invalid id's"""
+    query_all = [(
+        [ mock.call.query( Account ), mock.call.filter( Account._id > 0 )],
+        accounts
+    )]
+
+    query_individual_accounts = [
+        ([ mock.call.query( Account ), mock.call.filter( Account._id == _id )], [ account ])
+        for _id, account
+        in enumerate( accounts, start=1 )
+    ]
+
+    queries = query_all + query_individual_accounts
+
+    _mock_session = UnifiedAlchemyMagicMock( data=queries )
+
+    yield _mock_session
+
+    _mock_session.rollback()
+    _mock_session.close()
+
+
+@pytest.fixture( scope="function" )
+def mock_empty_session( app_context ):
+    """filter needed to allow adding to session during tests"""
+    query = [([ mock.call.query( Account ), mock.call.filter( Account._id > 0 )], [] )]
+    _mock_session = UnifiedAlchemyMagicMock( data=query )
+
+    yield _mock_session
+
+    _mock_session.rollback()
+    _mock_session.close()
+
+
+def test_querying_all_when_session_has_no_data( mock_empty_session ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.session = mock_empty_session
+        result = Account.all()
+
+        assert result == []
+        mock_query.session.query.return_value   \
+            .filter.return_value                \
+            .all.assert_called_once()
+
+
+def test_querying_all_when_session_has_data( mock_session, accounts ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.session = mock_session
+        result = Account.all()
+
+        assert result == accounts
+        mock_query.session.query.return_value   \
+            .filter.return_value                \
+            .all.assert_called_once()
+
+
+def test_calling_find_using_invalid_id( mock_session ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.session = mock_session
+        result = Account.find( 111 )
+
+        assert result is None
+        mock_query.session.query.return_value   \
+            .filter.return_value                \
+            .first.assert_called_once()
+
+
+def test_calling_find_using_valid_id( mock_session, accounts ):
+    with patch( "models.account.Account.query" ) as mock_query:
+        mock_query.session = mock_session
+
+        for _id, account in enumerate( accounts, start=1 ):
+            result = Account.find( _id )
+
+            assert result == account
+            mock_query.session.query.return_value   \
+                .filter.return_value                \
+                .first.assert_called()
+
+
+def test_to_dict_for_populated_accounts( app_context, accounts, account_data ):
+    for account, data in zip( accounts, account_data ):
+        to_dict = account.to_dict()
+
+        """
+        - being able to pop the keys asserts their existence
+        - likewise, the keys are created when saving accounts
+        - thus are not present in the src data
+        """
+        to_dict.pop( "_id" )
+        to_dict.pop( "date_joined" )
+
+        assert to_dict == data
+
+def test_to_dict_for_unpopulated_accounts( app_context ):
+    assert Account().to_dict() == {
+        "_id": None, "name": None, "email": None,
+        "phone_number": None, "disabled": None,
+        "date_joined": None
+    }
+
+
+def test_from_dict_for_unpopulated_accounts( app_context ):
+    data = {
+        "_id": None, "name": None, "email": None,
+        "phone_number": None, "disabled": None,
+        "date_joined": None
+    }
+
+    from_dict = Account()
+    from_dict.from_dict( data )
+
+    assert from_dict == Account()
+
+
+def test_from_dict_for_populated_accounts( app_context, accounts, account_data ):
+    for account, data in zip( accounts, account_data ):
+        data[ "date_joined" ] = account.date_joined
+        data[ "_id" ] = account._id
+
+        assert Account.from_dict( data ) == account
+
+
+def test_save_account_to_database( mock_empty_session, accounts ):
+    with patch( "models.account.db" ) as mock_db:
+        mock_db.session = mock_empty_session
+
+        for size, account in enumerate( accounts, start=1 ):
+            account.save()
+            result = mock_db.session.query( Account ).all()
+
+            assert len( result ) == size
+            mock_db.session.add.assert_called_with( account )
+            mock_db.session.commit.assert_called()
+
+
+def test_save_raises_exception_if_account_already_id_db( mock_session, accounts ):
+    jennifer_smith = accounts[ -1 ]
+    match = f"Save called: {jennifer_smith} already saved"
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            with pytest.raises( DataValidationError, match=match ):
+                jennifer_smith.save()
+                jennifer_smith.save()
+
+
+def test_calling_update_when_account_is_without_id( app_context ):
+    match = "Update called with empty ID field"
+    with pytest.raises( DataValidationError, match=match ):
+        Account().update()
+
+
+def test_update_saves_account_when_not_already_in_db( mock_empty_session, accounts ):
+    roberta_schaefer = accounts[ 0 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            roberta_schaefer.update()
+            result = mock_db.session.query( Account ).all()
+
+            assert result == [ roberta_schaefer ]
+            mock_db.session.add.assert_called_with( roberta_schaefer )
+            mock_db.session.commit.assert_called()
+
+
+def test_update_populated_account_already_in_db( mock_session, accounts ):
+    amber_torres = accounts[ 1 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_session
+            mock_db.session = mock_session
+
+            amber_torres.name = "updated name"
+            amber_torres.email = "updated email"
+
+            amber_torres.update()
+
+            is_amber_torres = Account._id == amber_torres._id
+            result = mock_db.session        \
+                .query( Account )           \
+                .filter( is_amber_torres )  \
+                .first()
+
+            assert result.name == "updated name"
+            assert result.email == "updated email"
+
+            found = Account.find( amber_torres._id )
+
+            assert found.name == "updated name"
+            assert found.email == "updated email"
+
+            mock_db.session.delete.assert_called_once()
+            mock_db.session.add.assert_called_once_with( amber_torres )
+            mock_db.session.commit.assert_called_once()
+
+
+def test_calling_delete_when_account_is_without_id( app_context ):
+    match = "Delete called with empty ID field"
+    with pytest.raises( DataValidationError, match=match ):
+        Account().delete()
+
+
+def test_calling_delete_when_account_not_in_db( mock_empty_session, accounts ):
+    becky_franco = accounts[ 2 ]
+    match = f"Delete called: {becky_franco} not found"
+    with patch( "models.account.Account.query" ) as mock_query:
+        with pytest.raises( DataValidationError, match=match ):
+            mock_query.session = mock_empty_session
+            becky_franco.delete()
+
+
+def test_calling_delete_when_account_in_db( mock_empty_session, accounts ):
+    mary_barker = accounts[ 3 ]
+    with patch( "models.account.Account.query" ) as mock_query:
+        with patch( "models.account.db" ) as mock_db:
+            mock_query.session = mock_empty_session
+            mock_db.session = mock_empty_session
+
+            mary_barker.save()
+            before = mock_db.session.query( Account ).all()
+
+            mary_barker.delete()
+            after = mock_db.session.query( Account ).all()
+
+            assert mary_barker in before
+            assert mary_barker not in after
+
+            mock_db.session.delete.assert_called_once()
+            mock_db.session.commit.assert_called()

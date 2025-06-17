@@ -1,0 +1,13 @@
+# dir
+.coverage
+.pytest_cache
+.venv
+**/*__pycache**
+**.egg-info
+build
+dist-*
+target
+
+# file
+*.swp
+coverage_html/
