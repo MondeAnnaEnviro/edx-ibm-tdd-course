@@ -43,6 +43,17 @@ def mock_ok_search( response_data ):
     )
 
 
+@pytest.fixture( scope="function" )
+def mock_ok_review( response_data ):
+    good_review = response_data.get( "GOOD_REVIEW", {} )
+    mock_json = Mock( return_value=good_review )
+    return good_review, Mock(
+        spec=Response,
+        status_code=200,
+        json=mock_json,
+    )
+
+
 def test_connection_error_when_offline( imdb ):
     functions = [ "search_titles", "movie_reviews", "movie_ratings" ]
     match = "Max retries exceeded with url"
@@ -68,3 +79,10 @@ def test_unfound_review_returns_nothing( imdb, mock_404_response ):
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_404_response ) as mock_get:
         assert imdb.movie_reviews( "" ) == {}
+
+
+def test_ok_reviews( imdb, mock_ok_review ):
+    mock_review, mock_response = mock_ok_review
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_response ) as mock_get:
+        assert imdb.movie_reviews( "ok reviews" ) == mock_review
