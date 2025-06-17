@@ -25,11 +25,10 @@ def imdb():
 
 
 @pytest.fixture( scope="function" )
-def mock_404_data():
+def mock_404_response():
     return Mock(
         spec=Response,
         status_code=404,
-        json={},
     )
 
 
@@ -52,9 +51,9 @@ def test_connection_error_when_offline( imdb ):
             getattr( imdb, function ).__call__( "" )
 
 
-def test_unfound_search_returns_nothing( imdb, mock_404_data ):
+def test_unfound_search_returns_nothing( imdb, mock_404_response ):
     target = "models.imdb.requests.get"
-    with patch( target, return_value=mock_404_data ) as mock_get:
+    with patch( target, return_value=mock_404_response ) as mock_get:
         assert imdb.search_titles( "" ) == {}
 
 
@@ -63,3 +62,9 @@ def test_ok_search( imdb, mock_ok_search ):
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_response ) as mock_get:
         assert imdb.search_titles( "ok search" ) == mock_search
+
+
+def test_unfound_review_returns_nothing( imdb, mock_404_response ):
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_404_response ) as mock_get:
+        assert imdb.movie_reviews( "" ) == {}
