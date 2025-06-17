@@ -15,28 +15,33 @@ from models.account import Account, DataValidationError
 from models import app
 
 
+from factories import AccountFactory
+
+
 @pytest.fixture( scope="session" )
 def app_context():
     with app.app_context():
         yield
 
 
-@pytest.fixture( scope="session" )
-def account_data():
-    """Loads JSON data from a file."""
-    fixture_path = "/tests/fixtures/account_data.json"
-    file_path = str( Path.cwd() ) + fixture_path
-
-    with Path( file_path ).open() as file:
-        return json.load( file )
+@pytest.fixture( scope="function" )
+def accounts():
+    return [ AccountFactory() for _ in range( 5 )]
 
 
-@pytest.fixture( scope="session" )
-def accounts( account_data ):
+@pytest.fixture( scope="function" )
+def account_data( accounts ):
+    """Assign account details to list of dicts"""
     return [
-        Account( _id=_id, **account, date_joined=datetime.datetime.now() )
-        for _id, account
-        in enumerate( account_data, start=1 )
+        {
+            "phone_number": getattr( account, "phone_number" ),
+            "date_joined": getattr( account, "date_joined" ),
+            "disabled": getattr( account, "disabled" ),
+            "email": getattr( account, "email" ),
+            "name": getattr( account, "name" ),
+            "_id": getattr( account, "_id" ),
+        }
+        for account in accounts
     ]
 
 
@@ -123,18 +128,11 @@ def test_calling_find_using_valid_id( mock_session, accounts ):
 
 
 def test_to_dict_for_populated_accounts( app_context, accounts, account_data ):
+    account_data = sorted( account_data, key=lambda a: a.get( "date_joined" ))
+    accounts = sorted( accounts, key=lambda a: a.date_joined )
     for account, data in zip( accounts, account_data ):
-        to_dict = account.to_dict()
+        assert account.to_dict() == data
 
-        """
-        - being able to pop the keys asserts their existence
-        - likewise, the keys are created when saving accounts
-        - thus are not present in the src data
-        """
-        to_dict.pop( "_id" )
-        to_dict.pop( "date_joined" )
-
-        assert to_dict == data
 
 def test_to_dict_for_unpopulated_accounts( app_context ):
     assert Account().to_dict() == {
@@ -159,9 +157,6 @@ def test_from_dict_for_unpopulated_accounts( app_context ):
 
 def test_from_dict_for_populated_accounts( app_context, accounts, account_data ):
     for account, data in zip( accounts, account_data ):
-        data[ "date_joined" ] = account.date_joined
-        data[ "_id" ] = account._id
-
         assert Account.from_dict( data ) == account
 
 
@@ -179,16 +174,16 @@ def test_save_account_to_database( mock_empty_session, accounts ):
 
 
 def test_save_raises_exception_if_account_already_id_db( mock_session, accounts ):
-    jennifer_smith = accounts[ -1 ]
-    match = f"Save called: {jennifer_smith} already saved"
+    account = accounts.pop()
+    match = f"Save called: {account} already saved"
     with patch( "models.account.Account.query" ) as mock_query:
         with patch( "models.account.db" ) as mock_db:
             mock_query.session = mock_empty_session
             mock_db.session = mock_empty_session
 
             with pytest.raises( DataValidationError, match=match ):
-                jennifer_smith.save()
-                jennifer_smith.save()
+                account.save()
+                account.save()
 
 
 def test_calling_update_when_account_is_without_id( app_context ):
@@ -198,49 +193,51 @@ def test_calling_update_when_account_is_without_id( app_context ):
 
 
 def test_update_saves_account_when_not_already_in_db( mock_empty_session, accounts ):
-    roberta_schaefer = accounts[ 0 ]
+    account = accounts.pop()
     with patch( "models.account.Account.query" ) as mock_query:
         with patch( "models.account.db" ) as mock_db:
             mock_query.session = mock_empty_session
             mock_db.session = mock_empty_session
 
-            roberta_schaefer.update()
+            account.update()
             result = mock_db.session.query( Account ).all()
 
-            assert result == [ roberta_schaefer ]
-            mock_db.session.add.assert_called_with( roberta_schaefer )
+            assert result == [ account ]
+            mock_db.session.add.assert_called_with( account )
             mock_db.session.commit.assert_called()
 
 
 def test_update_populated_account_already_in_db( mock_session, accounts ):
-    amber_torres = accounts[ 1 ]
+    account = accounts.pop()
     with patch( "models.account.Account.query" ) as mock_query:
         with patch( "models.account.db" ) as mock_db:
             mock_query.session = mock_session
             mock_db.session = mock_session
 
-            amber_torres.name = "updated name"
-            amber_torres.email = "updated email"
+            account.save()
 
-            amber_torres.update()
+            account.name = "updated name"
+            account.email = "updated email"
 
-            is_amber_torres = Account._id == amber_torres._id
+            account.update()
+
+            is_account = Account._id == account._id
             result = mock_db.session        \
                 .query( Account )           \
-                .filter( is_amber_torres )  \
+                .filter( is_account )       \
                 .first()
 
             assert result.name == "updated name"
             assert result.email == "updated email"
 
-            found = Account.find( amber_torres._id )
+            found = Account.find( account._id )
 
             assert found.name == "updated name"
             assert found.email == "updated email"
 
+            mock_db.session.add.assert_called_with( account )
+            mock_db.session.commit.assert_called()
             mock_db.session.delete.assert_called_once()
-            mock_db.session.add.assert_called_once_with( amber_torres )
-            mock_db.session.commit.assert_called_once()
 
 
 def test_calling_delete_when_account_is_without_id( app_context ):
@@ -250,29 +247,29 @@ def test_calling_delete_when_account_is_without_id( app_context ):
 
 
 def test_calling_delete_when_account_not_in_db( mock_empty_session, accounts ):
-    becky_franco = accounts[ 2 ]
-    match = f"Delete called: {becky_franco} not found"
+    account = accounts.pop()
+    match = f"Delete called: {account} not found"
     with patch( "models.account.Account.query" ) as mock_query:
         with pytest.raises( DataValidationError, match=match ):
             mock_query.session = mock_empty_session
-            becky_franco.delete()
+            account.delete()
 
 
 def test_calling_delete_when_account_in_db( mock_empty_session, accounts ):
-    mary_barker = accounts[ 3 ]
+    account = accounts.pop()
     with patch( "models.account.Account.query" ) as mock_query:
         with patch( "models.account.db" ) as mock_db:
             mock_query.session = mock_empty_session
             mock_db.session = mock_empty_session
 
-            mary_barker.save()
+            account.save()
             before = mock_db.session.query( Account ).all()
 
-            mary_barker.delete()
+            account.delete()
             after = mock_db.session.query( Account ).all()
 
-            assert mary_barker in before
-            assert mary_barker not in after
+            assert account in before
+            assert account not in after
 
             mock_db.session.delete.assert_called_once()
             mock_db.session.commit.assert_called()
