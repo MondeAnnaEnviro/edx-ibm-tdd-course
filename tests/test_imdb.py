@@ -2,6 +2,7 @@
 from requests.exceptions import ConnectionError
 from requests import Response
 from unittest.mock import patch, Mock
+from pathlib import Path
 import pytest
 import json
 
@@ -24,11 +25,23 @@ def imdb():
 
 
 @pytest.fixture( scope="function" )
-def mock_404_response():
+def mock_404_data():
     return Mock(
         spec=Response,
         status_code=404,
         json={},
+    )
+
+
+@pytest.fixture( scope="function" )
+def mock_ok_search( response_data ):
+    good_search = response_data.get( "GOOD_SEARCH", {} )
+    mock_json = Mock()
+    mock_json.return_value = good_search
+    return good_search, Mock(
+        spec=Response,
+        status_code=200,
+        json=mock_json,
     )
 
 
@@ -39,7 +52,14 @@ def test_connection_error_when_offline( imdb ):
 
 
 
-def test_unfound_search_returns_nothing( imdb, mock_404_response ):
+def test_unfound_search_returns_nothing( imdb, mock_404_data ):
     target = "models.imdb.requests.get"
-    with patch( target, return_value=mock_404_response ) as mock_get:
+    with patch( target, return_value=mock_404_data ) as mock_get:
         assert imdb.search_titles( "" ) == {}
+
+
+def test_ok_search( imdb, mock_ok_search ):
+    mock_search, mock_response = mock_ok_search
+    target = "models.imdb.requests.get"
+    with patch( target, return_value=mock_response ) as mock_get:
+        assert imdb.search_titles( "ok search" ) == mock_search
