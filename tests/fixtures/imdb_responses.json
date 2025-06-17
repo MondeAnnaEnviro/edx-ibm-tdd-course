@@ -1,45 +1,97 @@
 {
-    "GOOD_SEARCH": {
-        "searchType": "Title",
-        "expression": "Bambi",
-        "results": [{"id": "tt1375666", "resultType": "Movie", "image": null, "title": "Babmi", "description": "Disney movie about a baby dear"}],
-        "errorMessage": null
+    "VALID_RESPONSE": {
+        "titles": [
+            {
+                "id": "tt0034492",
+                "type": "movie",
+                "primary_title": "Bambi",
+                "original_title": "Bambi",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BMTIyZDk5NDItZmU5Yy00N2Y5LWI2ZDItMzEyZDhiYjI3MDdmXkEyXkFqcGc@._V1_.jpg", "width": 1491, "height": 2234},
+                "rating": {"aggregate_rating": 7.3, "votes_count": 160398},
+                "start_year": 1942
+            },
+            {
+                "id": "tt10298848",
+                "type": "movie",
+                "primary_title":
+                "Bambi",
+                "original_title":
+                "Bambi",
+                "rating": {}
+            },
+            {
+                "id": "tt23621682",
+                "type": "movie",
+                "primary_title": "Bambi: The Reckoning",
+                "original_title": "Bambi: The Reckoning",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BNTk2OWUzNjktOTc5MC00ZjJlLTgwYjEtMmE1NjY0MjMzY2UwXkEyXkFqcGc@._V1_.jpg", "width": 1290, "height": 1796},
+                "rating": {},
+                "start_year": 2025
+            },
+            {
+                "id": "tt32373637",
+                "type": "movie",
+                "primary_title": "Bambi: A Tale of Life in the Woods",
+                "original_title": "Bambi, l'histoire d'une vie dans les bois",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BMTRkODlhYjctODZkOC00ODI3LWIwNDItN2U1MGI4MGU4ZDA1XkEyXkFqcGc@._V1_.jpg", "width": 1371, "height": 1867},
+                "rating": {"aggregate_rating": 5.6, "votes_count": 243},
+                "start_year": 2024
+            },
+            {
+                "id": "tt2604346",
+                "type": "movie",
+                "primary_title": "Who Killed Bambi?",
+                "original_title": "¿Quién mató a Bambi?",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BMTk2ODQwMjA1OV5BMl5BanBnXkFtZTgwNjkyMDkyMDE@._V1_.jpg", "width": 3189, "height": 4724},
+                "rating": {"aggregate_rating": 5.5, "votes_count": 1357},
+                "start_year": 2013
+            },
+            {
+                "id": "tt3205278",
+                "type": "tvMovie",
+                "primary_title": "Bambi Cottages",
+                "original_title": "Bambi Cottages",
+                "rating": {"aggregate_rating": 8.2, "votes_count": 12},
+                "start_year": 2014
+            },
+            {
+                "id": "tt0326036",
+                "type": "movie",
+                "primary_title": "Qui a tué Bambi?",
+                "original_title": "Qui a tué Bambi?",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BZGJmNDkxMmMtNDVhOC00MzNhLWFmNTctZTVkZTQ0NTU1NmU3XkEyXkFqcGc@._V1_.jpg", "width": 600, "height": 800},
+                "rating": {"aggregate_rating": 6.1, "votes_count": 1441},
+                "start_year": 2003
+            },
+            {
+                "id": "tt2668120",
+                "type": "movie",
+                "primary_title": "Bambi",
+                "original_title": "Bambi",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BNDc5ZTZhYmUtNjU3Ni00YTRhLWJhMjEtMjhmNDNiMTQxZWExXkEyXkFqcGc@._V1_.jpg", "width": 768, "height": 1024},
+                "rating": {"aggregate_rating": 7.1, "votes_count": 171},
+                "start_year": 2013
+            },
+            {
+                "id": "tt0103913",
+                "type": "tvMovie",
+                "primary_title": "Calendar Girl, Cop, Killer? The Bambi Bembenek Story",
+                "original_title": "Calendar Girl, Cop, Killer? The Bambi Bembenek Story",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BYzliNmJmN2ItOTE1Mi00YjRkLWE3YjUtNDJlNzZmZDViYjVjXkEyXkFqcGc@._V1_.jpg", "width": 1920, "height": 2880},
+                "rating": {"aggregate_rating": 5.7, "votes_count": 150},
+                "start_year": 1992
+            },
+            {
+                "id": "tt0155830",
+                "type": "movie",
+                "primary_title": "Bambina",
+                "original_title": "Le farò da padre",
+                "primary_image": {"url": "https://m.media-amazon.com/images/M/MV5BNzkwOWVkY2YtZmFlZC00MzVjLTk5MmMtZmUzMjU4OGYwOGFmXkEyXkFqcGc@._V1_.jpg", "width": 924, "height": 1317},
+                "rating": {"aggregate_rating": 5.5, "votes_count": 521},
+                "start_year": 1974
+            }
+        ]
     },
-    "INVALID_API": {
-        "searchType": "Title",
-        "expression": "Bambi",
-        "results": null,
-        "errorMessage": "Invalid API Key"
-    },
-    "MOVIE_INVALID": {
-        "imDbId": null,
-        "title": null,
-        "fullTitle": null,
-        "type": null,
-        "year": null,
-        "items": null,
-        "errorMessage": "Invalid request."
-    },
-    "GOOD_REVIEW": {
-        "imDbId": "tt1375666",
-        "title": "Bambi",
-        "fullTitle": "Bambi",
-        "type": "Movie",
-        "year": "1942",
-        "items": [{"username": "mickey","userUrl": null,"reviewLink": null,"warningSpoilers": true,"date": "2008-04-01","rate": "5","helpful": null,"title": "Tear jerker","content": "This movie will make you cry"}],
-        "errorMessage": null
-    },
-    "GOOD_RATING": {
-        "imDbId": "tt1375666",
-        "title": "Bambi",
-        "fullTitle": "Bambi",
-        "type": "Movie",
-        "year": "1942",
-        "imDb": 5,
-        "metacritic": 4,
-        "theMovieDb": 4,
-        "rottenTomatoes": 5,
-        "filmAffinity": 3,
-        "errorMessage": null
+    "INVALID_RESPONSE": {
     }
 }
