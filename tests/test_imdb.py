@@ -1,26 +1,30 @@
-"""
-Test Cases for Mocking Lab
-"""
-import json
-from unittest import TestCase
-from unittest.mock import patch, Mock
+"""Test Cases for Mocking Lab"""
+from requests.exceptions import ConnectionError
 from requests import Response
+from unittest.mock import patch, Mock
+import pytest
+import json
+
+
 from models import IMDb
 
-IMDB_DATA = {}
 
-class TestIMDbDatabase(TestCase):
-    """Tests Cases for IMDb Database"""
+@pytest.fixture( scope="session" )
+def response_data():
+    fixture_path = "/tests/fixtures/imdb_responses.json"
+    file_path = str( Path.cwd() ) + fixture_path
 
-    @classmethod
-    def setUpClass(cls):
-        """ Load imdb responses needed by tests """
-        global IMDB_DATA
-        with open('tests/fixtures/imdb_responses.json') as json_data:
-            IMDB_DATA = json.load(json_data)
+    with Path( file_path ).open() as file:
+        return json.load( file )
 
 
-    ######################################################################
-    #  T E S T   C A S E S
-    ######################################################################
+@pytest.fixture( scope="function" )
+def imdb():
+    return IMDb( "fake-key" )
+
+
+def test_connection_error_when_offline( imdb ):
+    match = "Max retries exceeded with url"
+    with pytest.raises( ConnectionError, match=match ):
+        imdb.search_titles( "" )
 
