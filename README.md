@@ -6,6 +6,12 @@ An overview on the use of fixtures when setting up consistant test states. For m
 
 <br />
 
+#### Edit
+
+Upon advancement, it would seem that this project covers both Lab 03 and Lab 04.
+
+<br />
+
 #### Deviations from The Course
 
 
