@@ -1,5 +1,6 @@
 # dir
 .coverage
+.ipynb_checkpoints/
 .pytest_cache
 .venv
 **/*__pycache**
@@ -9,5 +10,7 @@ dist-*
 target
 
 # file
+*.ipynb
 *.swp
 coverage_html/
+NOTES
