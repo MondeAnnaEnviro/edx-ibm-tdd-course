@@ -160,8 +160,12 @@ def test_rating_using_invalid_imdb_id( imdb, mock_invalid_imdb_id_response ):
         results = imdb.movie_ratings( imdb_id )
 
         assert len( results )
-        assert results == mock_rating
-        assert "must be a valid imdb title id" in results[ "message" ].lower()
+        assert results ==  {
+            "id": None,
+            "primary_title": None,
+            "original_title": None,
+            "rating": None,
+        }
 
 
 def test_rating_using_valid_imdb_id( imdb, mock_valid_imdb_id_response ):
@@ -173,6 +177,9 @@ def test_rating_using_valid_imdb_id( imdb, mock_valid_imdb_id_response ):
         results = imdb.movie_ratings( imdb_id )
 
         assert len( results )
-        assert results == mock_rating
-        assert results[ "id" ] == imdb_id
-        assert results[ "primary_title" ] == "Bambi Cottages"
+        assert results == {
+            "id":               "tt3205278",
+            "primary_title":    "Bambi Cottages",
+            "original_title":   "Bambi Cottages",
+            "rating":           { "aggregate_rating": 8.2, "votes_count": 12 },
+        }
