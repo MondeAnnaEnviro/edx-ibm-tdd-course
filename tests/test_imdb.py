@@ -25,14 +25,6 @@ def imdb():
 
 
 @pytest.fixture( scope="function" )
-def mock_404_response():
-    return Mock(
-        spec=Response,
-        status_code=404,
-    )
-
-
-@pytest.fixture( scope="function" )
 def mock_valid_response( response_data ):
     valid = response_data[ "VALID_RESPONSE" ]
     mock_json = Mock( return_value=valid )
@@ -76,35 +68,13 @@ def mock_invalid_imdb_id_response( response_data ):
     )
 
 
-@pytest.fixture( scope="function" )
-def mock_ok_review( response_data ):
-    good_review = response_data.get( "GOOD_REVIEW" )
-    mock_json = Mock( return_value=good_review )
-    return good_review, Mock(
-        spec=Response,
-        status_code=200,
-        json=mock_json,
-    )
-
-
-@pytest.fixture( scope="function" )
-def mock_ok_rating( response_data ):
-    good_rating = response_data.get( "GOOD_RATING" )
-    mock_json = Mock( return_value=good_rating )
-    return good_rating, Mock(
-        spec=Response,
-        status_code=200,
-        json=mock_json,
-    )
-
-
 @pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
 def test_connection_error_when_offline( imdb ):
     functions = [ "search_titles", "movie_reviews", "movie_ratings" ]
     match = "Max retries exceeded with url"
     with pytest.raises( ConnectionError, match=match ):
         for function in functions:
-            getattr( imdb, function ).__call__( "" )
+            getattr( imdb, function ).__call__( "_invalid_input_" )
 
 
 def test_invalid_title_search( imdb, mock_invalid_response ):
@@ -137,14 +107,14 @@ def test_valid_title_search( imdb, mock_valid_response ):
 
 
 @pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
-def test_unfound_review_returns_nothing( imdb, mock_404_response ):
+def test_unfound_review_returns_nothing( imdb, mock_invalid_response ):
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_404_response ) as mock_get:
         assert imdb.movie_reviews( "" ) == {}
 
 
 @pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
-def test_ok_reviews( imdb, mock_ok_review ):
+def test_reviews( imdb, mock_valid_response ):
     mock_review, mock_response = mock_ok_review
     target = "models.imdb.requests.get"
     with patch( target, return_value=mock_response ) as mock_get:
