@@ -22,8 +22,8 @@ class IMDb:
         logger.info( f"Searching IMDb for Title: {title}" )
         response = requests.get( f"{self.__BASE_URL}/search/titles?query={title}" )
         if response.status_code != 200:
-            return {}
-        return response.json().get( "titles", {} )
+            return []
+        return response.json().get( "titles", [] )
 
     def movie_ratings(self, imdb_id: str) -> dict:
         """Get ratings for a movie"""
