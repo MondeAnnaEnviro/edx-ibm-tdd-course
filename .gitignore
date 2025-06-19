@@ -1,0 +1,16 @@
+# dir
+.coverage
+.ipynb_checkpoints/
+.pytest_cache
+.venv
+**/*__pycache**
+**.egg-info
+build
+dist-*
+target
+
+# file
+*.ipynb
+*.swp
+coverage_html/
+NOTES
