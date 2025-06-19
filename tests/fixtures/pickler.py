@@ -45,9 +45,17 @@ def pickle_invalid_imdb_id_response() -> None:
     pickle_response( "invalid_imdb_id_response", response )
 
 
+def pickle_valid_webscrapping_response() -> None:
+    url = f"https://www.metacritic.com/movie/bambi/"
+    user_agent = {'User-agent': 'Mozilla/5.0'}
+    response = requests.get( url, headers=user_agent )
+    pickle_response( "valid_webscrapping_response", response )
+
+
 if __name__ == "__main__":
     pickle_valid_title_search_response()
     pickle_invalid_title_search_response()
     pickle_valid_imdb_id_response()
     pickle_invalid_imdb_id_response()
+    pickle_valid_webscrapping_response()
 
