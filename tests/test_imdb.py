@@ -82,37 +82,31 @@ def test_reviews( imdb, mock_valid_title_search_response ):
         assert imdb.movie_reviews( "ok reviews" ) == mock_review
 
 
-@pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
 def test_rating_using_invalid_imdb_id( imdb, mock_invalid_imdb_id_response ):
-    mock_rating, mock_response = mock_invalid_imdb_id_response
     target = "models.imdb.requests.get"
     imdb_id = "tt-INVALID"
 
-    with patch( target, return_value=mock_response ) as mock_get:
+    with patch( target, return_value=mock_invalid_imdb_id_response ) as mock_get:
         results = imdb.movie_ratings( imdb_id )
 
         assert len( results )
         assert results ==  {
             "id": None,
             "primary_title": None,
-            "original_title": None,
             "rating": None,
         }
 
 
-@pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
 def test_rating_using_valid_imdb_id( imdb, mock_valid_imdb_id_response ):
-    mock_rating, mock_response = mock_valid_imdb_id_response
     target = "models.imdb.requests.get"
     imdb_id = "tt3205278"
 
-    with patch( target, return_value=mock_response ) as mock_get:
+    with patch( target, return_value=mock_valid_imdb_id_response ) as mock_get:
         results = imdb.movie_ratings( imdb_id )
 
         assert len( results )
         assert results == {
             "id":               "tt3205278",
             "primary_title":    "Bambi Cottages",
-            "original_title":   "Bambi Cottages",
             "rating":           { "aggregate_rating": 8.2, "votes_count": 12 },
         }

@@ -32,9 +32,8 @@ class IMDb:
 
         results = response.json()
         null_results = {
-                "id": None, "primary_title": None,
-                "original_title": None, "rating": None,
-            }
+            "id": None, "primary_title": None, "rating": None
+        }
 
         if "code" in results:
             return null_results
