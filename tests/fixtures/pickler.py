@@ -21,6 +21,12 @@ def unpickle_response( filename: str ) -> Response:
         return pickle.load( file )
 
 
+def pickle_bad_request_response() -> None:
+    url = "https://rest.imdbapi.dev/v2/search/titles?query="
+    response = requests.get( url )
+    pickle_response( "bad_request_response", response )
+
+
 def pickle_valid_title_search_response() -> None :
     url = "https://rest.imdbapi.dev/v2/search/titles?query=bambi"
     response = requests.get( url )
@@ -53,9 +59,9 @@ def pickle_valid_webscrapping_response() -> None:
 
 
 if __name__ == "__main__":
+    pickle_bad_request_response()
     pickle_valid_title_search_response()
     pickle_invalid_title_search_response()
     pickle_valid_imdb_id_response()
     pickle_invalid_imdb_id_response()
     pickle_valid_webscrapping_response()
-

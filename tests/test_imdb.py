@@ -17,6 +17,11 @@ def imdb():
 
 
 @pytest.fixture( scope="function" )
+def mock_bad_request_response():
+    return pickler.unpickle_response( "bad_request_response" )
+
+
+@pytest.fixture( scope="function" )
 def mock_valid_title_search_response():
     return pickler.unpickle_response( "valid_title_search_response" )
 
@@ -48,6 +53,14 @@ def test_connection_error_when_offline( imdb ):
     with pytest.raises( ConnectionError, match=match ):
         for function in functions:
             getattr( imdb, function ).__call__( "_invalid_input_" )
+
+
+def test_bad_request_for_title_search( imdb, mock_bad_request_response ):
+    target = "models.imdb.requests.get"
+    title = ""
+    with patch( target, return_value=mock_bad_request_response ) as mock_get:
+        results = imdb.search_titles( title )
+        assert results == []
 
 
 def test_invalid_title_search( imdb, mock_invalid_title_search_response ):
