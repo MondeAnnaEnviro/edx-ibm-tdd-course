@@ -77,12 +77,19 @@ def test_invalid_reviews( imdb, mock_invalid_imdb_id_response ):
         assert imdb.movie_reviews( "tt-INVALID_ID" ) == { "reviews": [] }
 
 
-@pytest.mark.skip( "w.i.p: url changed, expectation to be altered" )
 def test_valid_reviews( imdb, mock_valid_imdb_id_response, mock_valid_title_search_response, mock_valid_webscrapping_response ):
     valid_id = mock_valid_imdb_id_response.json()[ "id" ]
     target = "models.imdb.requests.get"
-    with patch( target, return_value=mock_valid_imdb_id_response ) as mock_get:
-        assert imdb.movie_reviews( valid_id ) == {}
+
+    imdb.search_titles = Mock( return_value=mock_valid_title_search_response.json().get( "titles" ))
+    imdb._is_valid_imdb_id = Mock( return_value=[ True, "misc" ])
+
+    with patch( target, return_value=mock_valid_webscrapping_response ) as mock_get:
+        result = imdb.movie_reviews( valid_id )
+        reviews = result[ "reviews" ]
+
+        assert "Whatever Kleenex moments it causes, Bambi is unmissable." in reviews
+        assert "From Disney's richest period, interleaving splendid animation with vulgar Americana. " in reviews
 
 
 def test_invalid_rating( imdb, mock_invalid_imdb_id_response ):

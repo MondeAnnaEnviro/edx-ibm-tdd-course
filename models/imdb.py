@@ -67,7 +67,6 @@ class IMDb:
         user_agent = {'User-agent': 'Mozilla/5.0'}
         response = requests.get( url, headers=user_agent )
 
-        print( response.json() )
         if response.status_code != 200:
             return reviews
 
@@ -81,6 +80,7 @@ class IMDb:
         span_end = "</span>"
 
         for review in reviews_raw:
+            print( "\n\n\n" + str( review ) + "\n\n\n" )
             review = str( review )
             start = review.find( span_start ) + len( span_start )
             end = review.find( span_end )
