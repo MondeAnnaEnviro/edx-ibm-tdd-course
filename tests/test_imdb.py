@@ -17,8 +17,8 @@ def imdb():
 
 
 @pytest.fixture( scope="function" )
-def mock_bad_request_response():
-    return pickler.unpickle_response( "bad_request_response" )
+def mock_not_ok_response():
+    return pickler.unpickle_response( "not_ok_response" )
 
 
 @pytest.fixture( scope="function" )
@@ -55,10 +55,10 @@ def test_connection_error_when_offline( imdb ):
             getattr( imdb, function ).__call__( "_invalid_input_" )
 
 
-def test_bad_request_for_title_search( imdb, mock_bad_request_response ):
+def test_not_ok_for_title_search( imdb, mock_not_ok_response ):
     target = "models.imdb.requests.get"
     title = ""
-    with patch( target, return_value=mock_bad_request_response ) as mock_get:
+    with patch( target, return_value=mock_not_ok_response ) as mock_get:
         results = imdb.search_titles( title )
         assert results == []
 
@@ -82,6 +82,16 @@ def test_valid_title_search( imdb, mock_valid_title_search_response ):
 
         for result in results:
             assert title in result.get( "primary_title", "" )
+
+
+def test_not_ok_for_reviews( imdb, mock_valid_title_search_response, mock_not_ok_response ):
+    target = "models.imdb.requests.get"
+
+    imdb.search_titles = Mock( return_value=mock_valid_title_search_response.json().get( "titles" ))
+    imdb._is_valid_imdb_id = Mock( return_value=[ True, "misc" ])
+
+    with patch( target, return_value=mock_not_ok_response ) as mock_get:
+        assert imdb.movie_reviews( "irrelevant" ) == { "reviews": [] }
 
 
 def test_invalid_reviews( imdb, mock_invalid_imdb_id_response ):
