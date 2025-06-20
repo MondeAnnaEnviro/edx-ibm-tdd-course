@@ -28,10 +28,14 @@ def create_app() -> Flask:
     def read_counter( name: str ) -> Response:
         """Reads a counts"""
         app.logger.info( f"Request to get counter: {name}" )
-        return (
-            { "message": f"Counter '{name}' not found" },
-            status.HTTP_204_NO_CONTENT,
-        )
+
+        if name not in counters:
+            return (
+                { "message": f"Counter '{name}' not found" },
+                status.HTTP_204_NO_CONTENT,
+            )
+
+        return ({ name: counters[ name ]}, status.HTTP_200_OK )
 
     @app.route( "/counters/<name>", methods=[ "PUT" ])
     def update_counter( name: str ) -> Response:

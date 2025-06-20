@@ -41,6 +41,16 @@ def test_reading_when_no_counter_exists( client ):
     assert data[ "message" ] == "Counter 'item' not found"
 
 
+def test_reading_newly_created_counter( client ):
+    """It should return a count of zero"""
+    client.post( "/counters/item" )
+    response = client.get( "counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data[ "item" ] == 0
+
+
 @pytest.mark.skip( "status code causes JSONDecodeError" )
 def test_updating_when_no_counter_exists( client ):
     """It should return no content status"""
