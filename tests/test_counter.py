@@ -22,11 +22,10 @@ def test_creating_new_counter( client ):
     assert data[ "item" ] == 0
 
 
-@pytest.mark.skip
 def test_creating_duplicate_counter( client ):
     """It should return an error for duplicates"""
-    first_response = client.post( "/counters/item" )
-    second_response = client.post( "/counters/item" )
+    first_response = client.post( "/counters/item2" )
+    second_response = client.post( "/counters/item2" )
 
-    assert first_response == status.HTTP_201_CREATED
-    assert second_response == status.HTTP_409_CONFLICT
+    assert first_response.status_code == status.HTTP_201_CREATED
+    assert second_response.status_code == status.HTTP_409_CONFLICT
