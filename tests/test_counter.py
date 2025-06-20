@@ -29,3 +29,13 @@ def test_creating_duplicate_counter( client ):
 
     assert first_response.status_code == status.HTTP_201_CREATED
     assert second_response.status_code == status.HTTP_409_CONFLICT
+
+
+def test_updating_a_counter( client ):
+    """It should update a counter"""
+    client.post( "/counters/item" )
+    response = client.put( "/counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data[ "item" ] == 1

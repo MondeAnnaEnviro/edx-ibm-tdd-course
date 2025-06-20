@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Response
 from counter import status
 
 
@@ -14,7 +14,14 @@ def create_counter( name, counters=COUNTERS ):
     if name in counters:
         return { "message": f"Counter {name} already exists" }, status.HTTP_409_CONFLICT
 
-    counters[name] = 0
+    counters[ name ] = 0
     return { name: counters[ name ]}, status.HTTP_201_CREATED
 
 
+@app.route( "/counters/<name>", methods=[ "PUT" ])
+def update_counter( name: str, counters: dict = COUNTERS ) -> Response:
+    """Updates a counter"""
+    app.logger.info( f"Request to update counter: {name}" )
+
+    counters[ name ] += 1
+    return { name: counters[ name ]}, status.HTTP_200_OK
