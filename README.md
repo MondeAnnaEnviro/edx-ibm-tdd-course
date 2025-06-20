@@ -36,3 +36,25 @@ There are guidelines for creating REST APIs that enable you to write the test ca
 Following these guidelines, you can make assumptions about how to call the web service and assert what it should return.
 
 <br />
+
+#### Deviations
+
+**_Test Framework_**
+
+As per the rest of the course, _pytest_ is once more in use. Of particular importance is the need to instantiate a new _app_ for each test as per _pytest's_ guideline. A greater benefit is ensuring a new and non-global container for each test.
+
+The original work suffers from the use of a global data structure for the count of containers, hence the second test operating with `bar` instead of re-using `foo`.
+
+<br />
+
+**_Step 1_** to **_Step 4_**
+
+No assertion is made after creating a counter, reason being a test is in place ensuring a _"204: NO CONTENT"_ status is returned should there be no counter to update. Likewise, multiple counter updates result in relative incrementations -- a test is in place for this too.
+
+<br />
+
+**_Step 5_** and **_Step 6_**
+
+No asseertions are made after creating a counter. There is a sense of redundancy in doing so as the tests for the `Create` action cover this. An argument for providing assertions is welcomed.
+
+<br />
