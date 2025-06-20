@@ -2,13 +2,9 @@ from flask import Flask, Response
 from counter import status
 
 
-def create_counter_container() -> dict:
-    return {}
-
-
 def create_app() -> Flask:
     app = Flask( __name__, instance_relative_config=True )
-    counters = create_counter_container()
+    counters = {}
 
     @app.route( "/counters/<name>", methods=[ "POST" ])
     def create_counter( name: str ) -> Response:
