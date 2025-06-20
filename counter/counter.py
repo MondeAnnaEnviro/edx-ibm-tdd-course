@@ -29,6 +29,12 @@ def create_app() -> Flask:
         """Updates a counter"""
         app.logger.info( f"Request to update counter: {name}" )
 
+        if name not in counters:
+            return (
+                { "messge": f"Counter '{name}' does not exist" },
+                status.HTTP_204_NO_CONTENT,
+            )
+
         counters[ name ] += 1
         return ({ name: counters[ name ]}, status.HTTP_200_OK )
 
