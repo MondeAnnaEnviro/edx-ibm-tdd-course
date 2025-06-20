@@ -24,6 +24,16 @@ def create_app() -> Flask:
         counters[ name ] = 0
         return ({ name: counters[ name ]}, status.HTTP_201_CREATED )
 
+    @app.route( "/counters/<name>", methods=[ "DELETE" ])
+    def delete_counter( name: str ) -> Response:
+        """Deletes a counter"""
+        app.logger.info( f"Request to delete counter: {name}" )
+
+        return (
+            { "message": f"Counter '{name}' not found" },
+            status.HTTP_204_NO_CONTENT,
+        )
+
     @app.route( "/counters/<name>", methods=[ "GET" ])
     def read_counter( name: str ) -> Response:
         """Reads a counts"""

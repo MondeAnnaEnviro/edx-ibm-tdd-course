@@ -32,6 +32,16 @@ def test_creating_duplicate_counter( client ):
 
 
 @pytest.mark.skip( "status code causes JSONDecodeError" )
+def test_deleting_when_no_counter_exists( client ):
+    """It should return no content status"""
+    response = client.delete( "/counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert data[ "message" ] == "Counter 'item' not found"
+
+
+@pytest.mark.skip( "status code causes JSONDecodeError" )
 def test_reading_when_no_counter_exists( client ):
     """It should return no content status"""
     response =  client.get( "/counters/item" )
