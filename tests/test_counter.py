@@ -62,6 +62,22 @@ def test_reading_singley_updated_counter( client ):
     assert data[ "item" ] == 1
 
 
+def test_reading_with_multiple_updates( client ):
+    """It should return a count of one"""
+    client.post( "/counters/item" )
+
+    num_calls = 10
+
+    for _ in range( num_calls ):
+        client.put( "/counters/item" )
+
+    response = client.get( "counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data[ "item" ] == num_calls
+
+
 @pytest.mark.skip( "status code causes JSONDecodeError" )
 def test_updating_when_no_counter_exists( client ):
     """It should return no content status"""
