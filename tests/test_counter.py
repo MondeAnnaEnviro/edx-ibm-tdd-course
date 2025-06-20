@@ -45,6 +45,7 @@ def test_deleting_when_no_counter_exists( client ):
 def test_deleting_newly_created_counter( client ):
     """It should return no content message after delete"""
     client.post( "/counters/item" )
+
     response = client.delete( "counters/item" )
     data = response.get_json()
 
@@ -57,6 +58,7 @@ def test_deleting_updated_counter( client ):
     """It should return no content message after delete"""
     client.post( "/counters/item" )
     client.put( "/counters/item" )
+
     response = client.delete( "counters/item" )
     data = response.get_json()
 
@@ -77,6 +79,7 @@ def test_reading_when_no_counter_exists( client ):
 def test_reading_newly_created_counter( client ):
     """It should return a count of zero"""
     client.post( "/counters/item" )
+
     response = client.get( "counters/item" )
     data = response.get_json()
 
@@ -88,6 +91,7 @@ def test_reading_singley_updated_counter( client ):
     """It should return a count of one"""
     client.post( "/counters/item" )
     client.put( "/counters/item" )
+
     response = client.get( "counters/item" )
     data = response.get_json()
 
@@ -124,6 +128,7 @@ def test_updating_when_no_counter_exists( client ):
 def test_updating_a_counter( client ):
     """It should update a counter"""
     client.post( "/counters/item" )
+
     response = client.put( "/counters/item" )
     data = response.get_json()
 
