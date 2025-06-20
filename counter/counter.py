@@ -13,7 +13,7 @@ def create_app() -> Flask:
 
         if name in counters:
             return (
-                { "message": f"Counter {name} already exists" },
+                f"Counter {name} already exists",
                 status.HTTP_409_CONFLICT,
             )
 
@@ -27,12 +27,12 @@ def create_app() -> Flask:
 
         if name not in counters:
             return (
-                { "message": f"Counter '{name}' not found" },
+                f"Counter '{name}' not found",
                 status.HTTP_204_NO_CONTENT,
             )
 
         return (
-            { "message": f"Counter '{name}' deleted" },
+            f"Counter '{name}' deleted",
             status.HTTP_204_NO_CONTENT,
         )
 
@@ -43,7 +43,7 @@ def create_app() -> Flask:
 
         if name not in counters:
             return (
-                { "message": f"Counter '{name}' not found" },
+                f"Counter '{name}' not found",
                 status.HTTP_204_NO_CONTENT,
             )
 
@@ -56,7 +56,7 @@ def create_app() -> Flask:
 
         if name not in counters:
             return (
-                { "messge": f"Counter '{name}' not found" },
+                f"Counter '{name}' not found",
                 status.HTTP_204_NO_CONTENT,
             )
 
