@@ -53,6 +53,18 @@ def test_deleting_newly_created_counter( client ):
 
 
 @pytest.mark.skip( "204 causes JSONDecodeError" )
+def test_deleting_updated_counter( client ):
+    """It should return no content message after delete"""
+    client.post( "/counters/item" )
+    client.put( "/counters/item" )
+    response = client.delete( "counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert data[ "message" ] == "Counter 'item' deleted"
+
+
+@pytest.mark.skip( "204 causes JSONDecodeError" )
 def test_reading_when_no_counter_exists( client ):
     """It should return no content status"""
     response =  client.get( "/counters/item" )
