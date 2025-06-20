@@ -31,7 +31,7 @@ def test_creating_duplicate_counter( client ):
     assert second_response.status_code == status.HTTP_409_CONFLICT
 
 
-@pytest.mark.skip( "status code causes JSONDecodeError" )
+@pytest.mark.skip( "204 causes JSONDecodeError" )
 def test_deleting_when_no_counter_exists( client ):
     """It should return no content status"""
     response = client.delete( "/counters/item" )
@@ -41,7 +41,18 @@ def test_deleting_when_no_counter_exists( client ):
     assert data[ "message" ] == "Counter 'item' not found"
 
 
-@pytest.mark.skip( "status code causes JSONDecodeError" )
+@pytest.mark.skip( "204 causes JSONDecodeError" )
+def test_deleting_newly_created_counter( client ):
+    """It should return no content message after delete"""
+    client.post( "/counters/item" )
+    response = client.delete( "counters/item" )
+    data = response.get_json()
+
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert data[ "message" ] == "Counter 'item' deleted"
+
+
+@pytest.mark.skip( "204 causes JSONDecodeError" )
 def test_reading_when_no_counter_exists( client ):
     """It should return no content status"""
     response =  client.get( "/counters/item" )
@@ -88,7 +99,7 @@ def test_reading_with_multiple_updates( client ):
     assert data[ "item" ] == num_calls
 
 
-@pytest.mark.skip( "status code causes JSONDecodeError" )
+@pytest.mark.skip( "204 causes JSONDecodeError" )
 def test_updating_when_no_counter_exists( client ):
     """It should return no content status"""
     response = client.put( "/counters/item" )

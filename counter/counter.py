@@ -29,8 +29,14 @@ def create_app() -> Flask:
         """Deletes a counter"""
         app.logger.info( f"Request to delete counter: {name}" )
 
+        if name not in counters:
+            return (
+                { "message": f"Counter '{name}' not found" },
+                status.HTTP_204_NO_CONTENT,
+            )
+
         return (
-            { "message": f"Counter '{name}' not found" },
+            { "message": f"Counter '{name}' deleted" },
             status.HTTP_204_NO_CONTENT,
         )
 
