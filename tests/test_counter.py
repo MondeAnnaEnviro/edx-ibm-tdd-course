@@ -13,7 +13,6 @@ def client():
     return counter.app.test_client()
 
 
-@pytest.mark.skip
 def test_creating_new_counter( client ):
     """It should create a counter"""
     response = client.post( "/counters/item" )
