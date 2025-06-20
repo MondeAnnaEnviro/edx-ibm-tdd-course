@@ -24,6 +24,15 @@ def create_app() -> Flask:
         counters[ name ] = 0
         return ({ name: counters[ name ]}, status.HTTP_201_CREATED )
 
+    @app.route( "/counters/<name>", methods=[ "GET" ])
+    def read_counter( name: str ) -> Response:
+        """Reads a counts"""
+        app.logger.info( f"Request to get counter: {name}" )
+        return (
+            { "message": f"Counter '{name}' not found" },
+            status.HTTP_204_NO_CONTENT,
+        )
+
     @app.route( "/counters/<name>", methods=[ "PUT" ])
     def update_counter( name: str ) -> Response:
         """Updates a counter"""
@@ -31,7 +40,7 @@ def create_app() -> Flask:
 
         if name not in counters:
             return (
-                { "messge": f"Counter '{name}' does not exist" },
+                { "messge": f"Counter '{name}' not found" },
                 status.HTTP_204_NO_CONTENT,
             )
 
